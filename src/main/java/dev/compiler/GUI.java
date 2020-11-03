@@ -12,7 +12,7 @@ public class GUI extends JFrame {
     public GUI(Node node) {
         this.add(new FAPanel(node));
         this.setTitle("FA GUI INTERFACE");
-        this.setSize(800, 800);
+        this.setSize(888, 888);
         this.setLocation(0, 0);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -82,8 +82,10 @@ class FAPanel extends JPanel {
 //        g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
 //        nodePosMap.put(node.getName(), new Pos(x, y));
 //        bfsMgr.getNextLayer();
+        int cnt = 0,xCnt = 0;
         while (true) {
-            y = 800 - x;
+            cnt = 0;
+            y = 800 - xCnt * 99;
             toPaint = bfsMgr.getNextLayer();
             if (toPaint.size() == 0) break;
             for (Node node : toPaint) {
@@ -92,25 +94,11 @@ class FAPanel extends JPanel {
                 g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
                 nodePosMap.put(node.getName(), new Pos(x, y));
                 nodeArrayList.add(node);
-//                for (Edge edge : node.getPrev()) {
-//                    Pos pos = nodePosMap.get(edge.to.getName());
-//                    setBlue(g);
-//                    if (pos == null) continue;
-//                    if (x == pos.centralX && y == pos.centralY) {
-////                        g.drawLine(x, y, pos.centralX, pos.centralY);
-//                        g.drawArc(x - 25, y - 25, 50, 50, 0, 280);
-//                        char[] arr = edge.getAllTransitions().toCharArray();
-//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20);
-//                    } else {
-//                        g.drawLine(x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-//                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-//                        char[] arr = edge.getAllTransitions().toCharArray();
-//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 15, (y + pos.centralY) / 2 + 15);
-//                    }
-//                }
-                y -= 90;
+                y -= 60 + (int)(Math.pow(cnt,1.3)) * 10 ;
+                ++cnt;
             }
-            x += 70;
+            x += 70 + xCnt * 15;
+            ++xCnt;
         }
         for (Node _node : nodeArrayList) {
             for (Edge edge : _node.getPrev()) {

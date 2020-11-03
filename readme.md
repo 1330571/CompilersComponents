@@ -1,4 +1,4 @@
-# A Toy That Translate Re Expr to Finite Machine
+# A Toy That Translate Re Expr to Finite Automata
 
 ## Features
 
@@ -14,3 +14,9 @@
 
 - NFA 2 DFA
 - Minimize DFA 
+
+## Environment
+
+- IDE IntellijIdea 2020.3
+- Jdk Version: JDK14
+- Build By Maven

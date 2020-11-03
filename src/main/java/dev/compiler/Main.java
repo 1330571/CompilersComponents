@@ -11,6 +11,9 @@ public class Main {
         Node C = new Node("C");
         Node D = new Node("D");
         Node E = new Node("E");
+        Node F = new Node("F");
+        Node G = new Node("G");
+
         A.addNextNode(B, "0", '0');
         A.addNextNode(A, "0", '1');
         System.out.println(A);
@@ -28,6 +31,9 @@ public class Main {
         C.addNextNode(E,"0",'0');
         E.addNextNode(A,"0",'1');
         D.addNextNode(B,"0",'0');
+        D.addNextNode(F,'0');
+        D.addNextNode(G,'0');
+        G.addNextNode(B,'0');
         //
         Matcher matcher = new Matcher(A);
         new GUI(A);
