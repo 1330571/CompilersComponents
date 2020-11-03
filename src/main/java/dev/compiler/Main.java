@@ -24,10 +24,10 @@ public class Main {
         C.setState(2);
 
         //Ok to comment
-//        C.addNextNode(D,"0",'0');
-//        C.addNextNode(E,"0",'0');
-//        E.addNextNode(A,"0",'1');
-//        D.addNextNode(B,"0",'0');
+        C.addNextNode(D,"0",'0');
+        C.addNextNode(E,"0",'0');
+        E.addNextNode(A,"0",'1');
+        D.addNextNode(B,"0",'0');
         //
         Matcher matcher = new Matcher(A);
         new GUI(A);

@@ -40,19 +40,33 @@ class FAPanel extends JPanel {
     }
 
     private void setGreen(Graphics g) {
-        g.setColor(Color.GREEN);
+        g.setColor(Color.cyan);
     }
+
+    private void setCharColor(Graphics g) { g.setColor(Color.green); }
 
     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) {
         double l1 = Math.abs(x1 - x2);
         double l2 = Math.abs(y1 - y2);
         double l3 = Math.sqrt(l1 * l1 + l2 * l2);
         double theta = Math.asin(l2 / l3);
-        theta += Math.PI / 6;
+        theta += Math.PI / 12;
         g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
 
-        theta -= Math.PI / 3;
+        theta -= Math.PI / 6;
         g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
+    }
+
+    private void drawArrow2(Graphics g, int x1, int y1, int x2, int y2) {
+        double l1 = Math.abs(x1 - x2);
+        double l2 = Math.abs(y1 - y2);
+        double l3 = Math.sqrt(l1 * l1 + l2 * l2);
+        double theta = Math.asin(l2 / l3);
+        theta -= Math.PI / 12;
+        g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
+
+        theta += Math.PI / 6;
+        g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
     }
 
     @Override
@@ -75,7 +89,7 @@ class FAPanel extends JPanel {
             for (Node node : toPaint) {
                 setBlack(g);
                 g.drawOval(x, y, 50, 50);
-                g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 20, y + 20);
+                g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
                 nodePosMap.put(node.getName(), new Pos(x, y));
                 nodeArrayList.add(node);
 //                for (Edge edge : node.getPrev()) {
@@ -94,7 +108,7 @@ class FAPanel extends JPanel {
 //                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 15, (y + pos.centralY) / 2 + 15);
 //                    }
 //                }
-                y -= 70;
+                y -= 90;
             }
             x += 70;
         }
@@ -111,57 +125,74 @@ class FAPanel extends JPanel {
                     char[] arr = edge.getAllTransitions().toCharArray();
                     g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20);
                 } else {
-                    g.drawLine(x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-                    drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-                    char[] arr = edge.getAllTransitions().toCharArray();
-                    g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 15, (y + pos.centralY) / 2 + 15);
+                    if (x > pos.centralX) {
+                        x += 7;
+                        y += 7;
+                        g.drawLine(x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
+                        drawArrow(g, x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
+//                    drawArrow2(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
+                        char[] arr = edge.getAllTransitions().toCharArray();
+                        setBlack(g);
+                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
+                    } else {
+                        x -= 7;
+                        y -= 7;
+                        setGreen(g);
+                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
+//                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
+                        drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
+                        char[] arr = edge.getAllTransitions().toCharArray();
+                        setCharColor(g);
+                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+                        setBlack(g);
+                    }
                 }
             }
         }
     }
 }
 
-    class BFSMgr {
-        Node node;
-        HashSet<Node> currentLayer = new HashSet<>();
-        HashSet<String> walked = new HashSet<>();
-        boolean first = true;
+class BFSMgr {
+    Node node;
+    HashSet<Node> currentLayer = new HashSet<>();
+    HashSet<String> walked = new HashSet<>();
+    boolean first = true;
 
-        public HashSet<String> getWalked() {
-            return walked;
-        }
+    public HashSet<String> getWalked() {
+        return walked;
+    }
 
-        public BFSMgr(Node node) {
-            this.node = node;
-        }
+    public BFSMgr(Node node) {
+        this.node = node;
+    }
 
-        public HashSet<Node> getNextLayer() {
-            if (first) {
-                first = false;
-                currentLayer.add(node);
-                walked.add(node.getName());
-                return currentLayer;
-            }
-            HashSet<Node> tempLayer = new HashSet<>();
-            for (Node node : currentLayer) {
-                for (Edge edge : node.getNxt()) {
-                    if (!walked.contains(edge.to.getName())) {
-                        tempLayer.add(edge.to);
-                        walked.add(edge.to.getName());
-                    }
-                }
-            }
-            System.out.println(tempLayer);
-            currentLayer = tempLayer;
+    public HashSet<Node> getNextLayer() {
+        if (first) {
+            first = false;
+            currentLayer.add(node);
+            walked.add(node.getName());
             return currentLayer;
         }
-    }
-
-    class Pos {
-        int centralX, centralY;
-
-        public Pos(int centralX, int centralY) {
-            this.centralX = centralX;
-            this.centralY = centralY;
+        HashSet<Node> tempLayer = new HashSet<>();
+        for (Node node : currentLayer) {
+            for (Edge edge : node.getNxt()) {
+                if (!walked.contains(edge.to.getName())) {
+                    tempLayer.add(edge.to);
+                    walked.add(edge.to.getName());
+                }
+            }
         }
+        System.out.println(tempLayer);
+        currentLayer = tempLayer;
+        return currentLayer;
     }
+}
+
+class Pos {
+    int centralX, centralY;
+
+    public Pos(int centralX, int centralY) {
+        this.centralX = centralX;
+        this.centralY = centralY;
+    }
+}

@@ -71,6 +71,17 @@ public class Node {
         nxt.add(new Edge(node, id, transition));
     }
 
+    public void addNextNode(Node node, char transition) {
+        node.addPrevNode(this, transition);
+        for (Edge edge : nxt) {
+            if (edge.to == node) {
+                edge.addTransition(transition);
+                return;
+            }
+        }
+        nxt.add(new Edge(node, "NIL", transition));
+    }
+
     private void addPrevNode(Node node, String id, char transition) {
         for (Edge edge : prev) {
             if (edge.to == node) {
@@ -79,6 +90,16 @@ public class Node {
             }
         }
         prev.add(new Edge(node, id, transition));
+    }
+
+    private void addPrevNode(Node node, char transition) {
+        for (Edge edge : prev) {
+            if (edge.to == node) {
+                edge.addTransition(transition);
+                return;
+            }
+        }
+        prev.add(new Edge(node, "NIL", transition));
     }
 
     @Override
