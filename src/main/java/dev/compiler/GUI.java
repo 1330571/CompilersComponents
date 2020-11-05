@@ -43,18 +43,30 @@ class FAPanel extends JPanel {
         g.setColor(Color.cyan);
     }
 
-    private void setCharColor(Graphics g) { g.setColor(Color.green); }
+    private void setStart(Graphics g) {
+        g.setColor(Color.darkGray);
+    }
+
+    private void setCharColor(Graphics g) {
+        g.setColor(Color.green);
+    }
 
     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) {
+
         double l1 = Math.abs(x1 - x2);
         double l2 = Math.abs(y1 - y2);
         double l3 = Math.sqrt(l1 * l1 + l2 * l2);
         double theta = Math.asin(l2 / l3);
-        theta += Math.PI / 12;
-        g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
-
-        theta -= Math.PI / 6;
-        g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
+        if (y1 <= y2) {
+            theta += Math.PI / 12;
+            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
+            theta -= Math.PI / 6;
+            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
+        } else {
+            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(Math.PI / 12 - theta)), (int) (y1 + L * Math.sin(Math.PI / 12 - theta)));
+            theta += Math.PI / 12;
+            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 - L * Math.sin(theta)));
+        }
     }
 
     private void drawArrow2(Graphics g, int x1, int y1, int x2, int y2) {
@@ -82,19 +94,25 @@ class FAPanel extends JPanel {
 //        g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
 //        nodePosMap.put(node.getName(), new Pos(x, y));
 //        bfsMgr.getNextLayer();
-        int cnt = 0,xCnt = 0;
+        int cnt = 0, xCnt = 0;
         while (true) {
             cnt = 0;
-            y = 800 - xCnt * 99;
+//            y = 800 - xCnt * 99;
+            y = 800;
             toPaint = bfsMgr.getNextLayer();
             if (toPaint.size() == 0) break;
             for (Node node : toPaint) {
                 setBlack(g);
-                g.drawOval(x, y, 50, 50);
                 g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
+                if (node.getState() == 2)
+                    g.drawOval(x - 5, y - 5, 60, 60);
+                if (node.getState() == 0) {
+                    setStart(g);
+                }
+                g.drawOval(x, y, 50, 50);
                 nodePosMap.put(node.getName(), new Pos(x, y));
                 nodeArrayList.add(node);
-                y -= 60 + (int)(Math.pow(cnt,1.3)) * 10 ;
+                y -= 60 + (int) (Math.pow(cnt, 1.3)) * 10;
                 ++cnt;
             }
             x += 70 + xCnt * 15;

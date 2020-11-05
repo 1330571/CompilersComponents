@@ -43,6 +43,7 @@ public class Node {
         this.name = name;
         nxt = new ArrayList<>();
         prev = new ArrayList<>();
+        this.state = 1;//默认为普通结点
     }
 
     public void addNextEdge(Edge edge) {
