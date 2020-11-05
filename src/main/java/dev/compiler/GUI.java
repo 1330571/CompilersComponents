@@ -90,6 +90,7 @@ class FAPanel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
+        //FIXME Text will occupy each other
         int x = X, y = Y;
         super.paint(g);
         HashMap<String, Pos> nodePosMap = new HashMap<>();

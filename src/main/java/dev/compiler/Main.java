@@ -41,9 +41,14 @@ public class Main {
         G.addNextNode(B, '0');
         H.addNextNode(I, '1');
         H.addNextNode(J, '1');
-        J.addNextNode(A,'0');
+        J.addNextNode(A, '0');
         //
         Matcher matcher = new Matcher(A);
-        new GUI(A);
+//        new GUI(A);
+
+        String s = "((a|b)|c)*(a|b|c)*";
+        ReConvert reConvert = new ReConvert(s);
+        NFA nfa = reConvert.parseToFA();
+        new GUI(nfa.getStart());
     }
 }
