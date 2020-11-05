@@ -13,7 +13,7 @@ public class GUI extends JFrame {
     public GUI(Node node) {
         this.add(new FAPanel(node));
         this.setTitle("FA GUI INTERFACE");
-        this.setSize(888, 888);
+        this.setSize(888, 1288);
         this.setLocation(0, 0);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 class FAPanel extends JPanel {
     final Node node;
     final int X = 20;
-    final int Y = 450;
+    final int Y = 750;
     final int L = 20;
 
     public FAPanel(Node node) {
@@ -98,23 +98,39 @@ class FAPanel extends JPanel {
                 + (a.centralY - b.centralY) * (a.centralY - b.centralY));
     }
 
-    private void drawText(Graphics g, ArrayList<Pos> arrayList, char[] arr, int off, int len, int x, int y) {
+    private boolean checkLineCover(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+        if ((double) (x2 - x1) / (double) (y2 - y1) - (double) (x4 - x3) / (double) (y4 - y3) < 1e-3) {
+
+        }
+        return false;
+    }
+
+    private void drawText(Graphics g, ArrayList<Pos> arrayList, char[] arr, int off, int len, int x, int y, Line line) {
+        //FIXME ERROR FLOATING
         Random random = new Random();
         Pos _pos = new Pos(x, y);
+        double innerX = x, innerY = y;
         while (true) {
             boolean notCover = false;
             for (Pos pos : arrayList) {
-                if (dis(pos, new Pos(x, y)) < 10.0) {
+                if (dis(pos, new Pos((int) innerX, (int) innerY)) < 10.0) {
                     notCover = true;
                     break;
                 }
             }
             if (!notCover) break;
-            x += random.nextInt(5) - 10;
-            y += random.nextInt(5) - 10;
+            if (line != null) {
+                int rnd = random.nextInt(2);
+                if (rnd == 0) rnd = 4;
+                else rnd = -4;
+                innerX += (double) rnd * line.xPer;
+                innerY += (double) rnd * line.yPer;
+            } else {
+                break; //TODO Some strategy ?
+            }
         }
-        arrayList.add(new Pos(x, y));
-        g.drawChars(arr, 0, arr.length, x, y);
+        arrayList.add(new Pos((int) innerX, (int) innerY));
+        g.drawChars(arr, off, arr.length, (int) innerX, (int) innerY);
     }
 
     @Override
@@ -152,12 +168,13 @@ class FAPanel extends JPanel {
                 g.drawOval(x, y, 50, 50);
                 nodePosMap.put(node.getName(), new Pos(x, y));
                 nodeArrayList.add(node);
-                y -= 125;
+                y -= 175;
                 ++cnt;
             }
             x += 100;
             ++xCnt;
         }
+        //Note FUNCTION HERE
         for (Node _node : nodeArrayList) {
             for (Edge edge : _node.getPrev()) {
                 x = nodePosMap.get(_node.getName()).centralX;
@@ -172,31 +189,33 @@ class FAPanel extends JPanel {
 
                     g.drawArc(x - 25, y - 25, 50, 50, 0, 268);
                     char[] arr = edge.getAllTransitions().toCharArray();
-                    g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20);
+                    drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20, null);
                 } else {
                     if (x > pos.centralX) {
                         x += 7;
                         y += 7;
                         g.drawLine(x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
+//                        g.drawOval(pos.centralX + 20 + 7, pos.centralY + 25 + 7, 5, 5);
+                        Line line = new Line(x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
                         drawArrow(g, x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
 //                    drawArrow2(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
                         setBlack(g);
 //                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
-                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
+                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23, line);
                     } else {
                         //FIXME Multiple lines cover each other
                         x -= 7;
                         y -= 7;
                         setGreen(g);
                         g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
+                        Line line = new Line(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
 //                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
                         setCharColor(g);
 //                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
-                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
-                        ;
+                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22, line);
                         setBlack(g);
                     }
                 }
@@ -248,4 +267,31 @@ class Pos {
         this.centralX = centralX;
         this.centralY = centralY;
     }
+}
+
+class Line {
+    int x1, x2, y1, y2;
+    double xPer, yPer;
+
+    public Line(int x1, int x2, int y1, int y2) {
+        this.x1 = x1;
+        this.x2 = x2;
+        this.y1 = y1;
+        this.y2 = y2;
+        double l1 = Math.abs(y1 - y2);
+        double l2 = Math.abs(x1 - x2);
+
+        double l3 = Math.sqrt(l1 * l1 + l2 * l2);
+        double theta = Math.asin(l1 / l3);
+
+        yPer = (y1 < y2 ? 1 : -1) * Math.sin(theta);
+
+        xPer = (x1 < x2 ? 1 : -1) * Math.cos(theta);
+        if (x1 == x2) xPer = 0;
+        if (y1 == y2) yPer = 0;
+
+        System.out.println(xPer + "   " + yPer);
+
+    }
+
 }
