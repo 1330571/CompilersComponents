@@ -46,7 +46,7 @@ public class Main {
         Matcher matcher = new Matcher(A);
 //        new GUI(A);
 
-        String s = "((a|b)|c)*(a|b|c)*";
+        String s = "((a|b)*(ac|cb)*)*";
         ReConvert reConvert = new ReConvert(s);
         NFA nfa = reConvert.parseToFA();
         new GUI(nfa.getStart());

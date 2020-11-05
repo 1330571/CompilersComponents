@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 
 public class GUI extends JFrame {
@@ -22,7 +23,7 @@ public class GUI extends JFrame {
 
 class FAPanel extends JPanel {
     final Node node;
-    final int X = 100;
+    final int X = 20;
     final int Y = 450;
     final int L = 20;
 
@@ -44,7 +45,7 @@ class FAPanel extends JPanel {
     }
 
     private void setStart(Graphics g) {
-        g.setColor(new Color(255,100,20));
+        g.setColor(new Color(255, 100, 20));
     }
 
     private void setCharColor(Graphics g) {
@@ -88,8 +89,32 @@ class FAPanel extends JPanel {
             theta += Math.PI / 12;
             g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 + L * Math.sin(theta)));
 
-          //FIXME Error Performance
+            //FIXME Error Performance
         }
+    }
+
+    private double dis(Pos a, Pos b) {
+        return Math.sqrt((a.centralX - b.centralX) * (a.centralX - b.centralX)
+                + (a.centralY - b.centralY) * (a.centralY - b.centralY));
+    }
+
+    private void drawText(Graphics g, ArrayList<Pos> arrayList, char[] arr, int off, int len, int x, int y) {
+        Random random = new Random();
+        Pos _pos = new Pos(x, y);
+        while (true) {
+            boolean notCover = false;
+            for (Pos pos : arrayList) {
+                if (dis(pos, new Pos(x, y)) < 10.0) {
+                    notCover = true;
+                    break;
+                }
+            }
+            if (!notCover) break;
+            x += random.nextInt(5) - 10;
+            y += random.nextInt(5) - 10;
+        }
+        arrayList.add(new Pos(x, y));
+        g.drawChars(arr, 0, arr.length, x, y);
     }
 
     @Override
@@ -101,8 +126,8 @@ class FAPanel extends JPanel {
         ArrayList<Node> nodeArrayList = new ArrayList<>();
         HashSet<Node> toPaint = new HashSet<>();
         BFSMgr bfsMgr = new BFSMgr(node);
-		
-		ArrayList<Pos> lineMediumPoint = new ArrayList<>();
+
+        ArrayList<Pos> lineMediumPoint = new ArrayList<>();
 
         setBlack(g);
 //        g.drawOval(x, y, 50, 50);
@@ -137,12 +162,14 @@ class FAPanel extends JPanel {
             for (Edge edge : _node.getPrev()) {
                 x = nodePosMap.get(_node.getName()).centralX;
                 y = nodePosMap.get(_node.getName()).centralY;
-				lineMediumPoint.add(new Pos(x,y));
+//				lineMediumPoint.add(new Pos(x,y));
                 Pos pos = nodePosMap.get(edge.to.getName());
                 setBlue(g);
                 if (pos == null) continue;
                 if (x == pos.centralX && y == pos.centralY) {
 //                        g.drawLine(x, y, pos.centralX, pos.centralY);
+                    int expected_x = x - 25, expected_y = y - 25;
+
                     g.drawArc(x - 25, y - 25, 50, 50, 0, 268);
                     char[] arr = edge.getAllTransitions().toCharArray();
                     g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20);
@@ -155,7 +182,8 @@ class FAPanel extends JPanel {
 //                    drawArrow2(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
                         setBlack(g);
-                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
+//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
+                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
                     } else {
                         //FIXME Multiple lines cover each other
                         x -= 7;
@@ -166,7 +194,9 @@ class FAPanel extends JPanel {
                         drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
                         setCharColor(g);
-                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+                        drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+                        ;
                         setBlack(g);
                     }
                 }
