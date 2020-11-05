@@ -44,7 +44,7 @@ class FAPanel extends JPanel {
     }
 
     private void setStart(Graphics g) {
-        g.setColor(Color.darkGray);
+        g.setColor(new Color(255,100,20));
     }
 
     private void setCharColor(Graphics g) {
