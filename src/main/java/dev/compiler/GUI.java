@@ -97,6 +97,9 @@ class FAPanel extends JPanel {
         ArrayList<Node> nodeArrayList = new ArrayList<>();
         HashSet<Node> toPaint = new HashSet<>();
         BFSMgr bfsMgr = new BFSMgr(node);
+		
+		ArrayList<Pos> lineMediumPoint = new ArrayList<>();
+
         setBlack(g);
 //        g.drawOval(x, y, 50, 50);
 //        g.drawChars(node.getName().toCharArray(), 0, node.getName().toCharArray().length, x + 25, y + 25);
@@ -130,6 +133,7 @@ class FAPanel extends JPanel {
             for (Edge edge : _node.getPrev()) {
                 x = nodePosMap.get(_node.getName()).centralX;
                 y = nodePosMap.get(_node.getName()).centralY;
+				lineMediumPoint.add(new Pos(x,y));
                 Pos pos = nodePosMap.get(edge.to.getName());
                 setBlue(g);
                 if (pos == null) continue;
@@ -150,16 +154,16 @@ class FAPanel extends JPanel {
                         g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
                     } else {
                         //FIXME Multiple lines cover each other
-//                        x -= 7;
-//                        y -= 7;
-//                        setGreen(g);
-//                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
-////                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-//                        drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
-//                        char[] arr = edge.getAllTransitions().toCharArray();
-//                        setCharColor(g);
-//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
-//                        setBlack(g);
+                        x -= 7;
+                        y -= 7;
+                        setGreen(g);
+                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
+//                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
+                        drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
+                        char[] arr = edge.getAllTransitions().toCharArray();
+                        setCharColor(g);
+                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+                        setBlack(g);
                     }
                 }
             }
