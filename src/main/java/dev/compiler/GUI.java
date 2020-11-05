@@ -23,7 +23,7 @@ public class GUI extends JFrame {
 class FAPanel extends JPanel {
     final Node node;
     final int X = 100;
-    final int Y = 700;
+    final int Y = 450;
     final int L = 20;
 
     public FAPanel(Node node) {
@@ -63,10 +63,14 @@ class FAPanel extends JPanel {
             theta -= Math.PI / 6;
             g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 + L * Math.sin(theta)));
         } else {
-            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(Math.PI / 12 - theta)), (int) (y1 + L * Math.sin(Math.PI / 12  - theta)));
+            g.drawLine(x1, y1, (int) (x1 - L * Math.cos(Math.PI / 12 - theta)), (int) (y1 + L * Math.sin(Math.PI / 12 - theta)));
             theta += Math.PI / 12;
             g.drawLine(x1, y1, (int) (x1 - L * Math.cos(theta)), (int) (y1 - L * Math.sin(theta)));
         }
+    }
+
+    public void drawMatchingAnimation() {
+        //TODO Code Here
     }
 
     private void drawArrow2(Graphics g, int x1, int y1, int x2, int y2) {
@@ -74,11 +78,14 @@ class FAPanel extends JPanel {
         double l2 = Math.abs(y1 - y2);
         double l3 = Math.sqrt(l1 * l1 + l2 * l2);
         double theta = Math.asin(l2 / l3);
-        theta -= Math.PI / 12;
-        g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
-
-        theta += Math.PI / 6;
-        g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
+        if (y1 <= y2) {
+            theta -= Math.PI / 12;
+            g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
+            theta += Math.PI / 6;
+            g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
+        } else {
+          //FIXME Error Performance
+        }
     }
 
     @Override
@@ -98,7 +105,7 @@ class FAPanel extends JPanel {
         while (true) {
             cnt = 0;
 //            y = 800 - xCnt * 99;
-            y = 800;
+            y = Y;
             toPaint = bfsMgr.getNextLayer();
             if (toPaint.size() == 0) break;
             for (Node node : toPaint) {
@@ -112,10 +119,10 @@ class FAPanel extends JPanel {
                 g.drawOval(x, y, 50, 50);
                 nodePosMap.put(node.getName(), new Pos(x, y));
                 nodeArrayList.add(node);
-                y -= 60 + (int) (Math.pow(cnt, 1.3)) * 10;
+                y -= 125;
                 ++cnt;
             }
-            x += 70 + xCnt * 15;
+            x += 100;
             ++xCnt;
         }
         for (Node _node : nodeArrayList) {
@@ -127,7 +134,7 @@ class FAPanel extends JPanel {
                 if (pos == null) continue;
                 if (x == pos.centralX && y == pos.centralY) {
 //                        g.drawLine(x, y, pos.centralX, pos.centralY);
-                    g.drawArc(x - 25, y - 25, 50, 50, 0, 280);
+                    g.drawArc(x - 25, y - 25, 50, 50, 0, 268);
                     char[] arr = edge.getAllTransitions().toCharArray();
                     g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 - 20, (y + pos.centralY) / 2 - 20);
                 } else {
@@ -141,16 +148,17 @@ class FAPanel extends JPanel {
                         setBlack(g);
                         g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
                     } else {
-                        x -= 7;
-                        y -= 7;
-                        setGreen(g);
-                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
-//                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
-                        drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
-                        char[] arr = edge.getAllTransitions().toCharArray();
-                        setCharColor(g);
-                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
-                        setBlack(g);
+                        //FIXME Multiple lines cover each other
+//                        x -= 7;
+//                        y -= 7;
+//                        setGreen(g);
+//                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
+////                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
+//                        drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
+//                        char[] arr = edge.getAllTransitions().toCharArray();
+//                        setCharColor(g);
+//                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
+//                        setBlack(g);
                     }
                 }
             }

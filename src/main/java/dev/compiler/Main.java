@@ -13,6 +13,9 @@ public class Main {
         Node E = new Node("E");
         Node F = new Node("F");
         Node G = new Node("G");
+        Node H = new Node("H");
+        Node I = new Node("FX");
+        Node J = new Node("AX");
 
         A.addNextNode(B, "0", '0');
         A.addNextNode(A, "0", '1');
@@ -27,13 +30,18 @@ public class Main {
         C.setState(2);
 
         //Ok to comment
-        C.addNextNode(D,"0",'0');
-        C.addNextNode(E,"0",'0');
-        E.addNextNode(A,"0",'1');
-        D.addNextNode(B,"0",'0');
-        D.addNextNode(F,'0');
-        D.addNextNode(G,'0');
-        G.addNextNode(B,'0');
+        C.addNextNode(D, "0", '0');
+        C.addNextNode(E, "0", '0');
+        E.addNextNode(A, "0", '1');
+        D.addNextNode(B, "0", '0');
+        D.addNextNode(F, '0');
+        D.addNextNode(G, '0');
+        G.addNextNode(B, '0');
+        A.addNextNode(H, '0');
+        G.addNextNode(B, '0');
+        H.addNextNode(I, '1');
+        H.addNextNode(J, '1');
+        J.addNextNode(A,'0');
         //
         Matcher matcher = new Matcher(A);
         new GUI(A);
