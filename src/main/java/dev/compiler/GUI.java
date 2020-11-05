@@ -84,6 +84,10 @@ class FAPanel extends JPanel {
             theta += Math.PI / 6;
             g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 - L * Math.sin(theta)));
         } else {
+            g.drawLine(x2, y2, (int) (x2 + L * Math.cos(Math.PI / 12 - theta)), (int) (y2 - L * Math.sin(Math.PI / 12 - theta)));
+            theta += Math.PI / 12;
+            g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 + L * Math.sin(theta)));
+
           //FIXME Error Performance
         }
     }
