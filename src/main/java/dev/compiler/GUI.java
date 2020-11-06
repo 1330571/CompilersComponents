@@ -46,8 +46,9 @@ class FAPanel extends JPanel {
     }
 
     private void setRandomColor(Graphics g) {
+        //TODO Make This Color more reliable
         Random random = new Random();
-        g.setColor(new Color(random.nextInt(156) + 100, random.nextInt(156) + 100, random.nextInt(156) + 100));
+        g.setColor(new Color(random.nextInt(106) + 100, random.nextInt(100) + 56, random.nextInt(100) + 156));
     }
 
     private void setStart(Graphics g) {
@@ -162,6 +163,9 @@ class FAPanel extends JPanel {
             cnt = 0;
 //            y = 800 - xCnt * 99;
             y = Y;
+            if (xCnt > 13) {
+                y = Y / 3;
+            }
             toPaint = bfsMgr.getNextLayer();
             if (toPaint.size() == 0) break;
             for (Node node : toPaint) {
@@ -178,8 +182,11 @@ class FAPanel extends JPanel {
                 y -= 175;
                 ++cnt;
             }
-            x += 75;
+            x += 85;
             ++xCnt;
+            if (xCnt == 14) {
+                x = 100;
+            }
         }
         //Note FUNCTION HERE
         for (Node _node : nodeArrayList) {
