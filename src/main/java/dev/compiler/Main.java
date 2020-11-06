@@ -46,16 +46,15 @@ public class Main {
         J.addNextNode(A, '0');
         //
         Matcher matcher = new Matcher(A);
-//        new GUI(A);
+        new GUI(A);
 
 //        String s = "((a|b)*(ac|cb)*)*";
         Scanner scanner = new Scanner(System.in);
-        String s = "((A| B)*( C|D)*)*";
+//        String s = "((((AB))* |(A|B))*( C|D)*)*AB";
 //        while ((s = scanner.nextLine()) != null) {
-            ReConvert reConvert = new ReConvert(s);
-
-            NFA nfa = reConvert.parseToFA();
-            new GUI(nfa.getStart());
+//            ReConvert reConvert = new ReConvert(s);
+//            NFA nfa = reConvert.parseToFA();
+//            new GUI(nfa.getStart());
 //        }
     }
 }

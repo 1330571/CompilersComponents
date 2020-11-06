@@ -23,7 +23,8 @@ public class GUI extends JFrame {
 
 class FAPanel extends JPanel {
     final Node node;
-    final int X = 20;
+    final int fontSize = 20;
+    final int X = 50;
     final int Y = 750;
     final int L = 20;
 
@@ -42,6 +43,11 @@ class FAPanel extends JPanel {
 
     private void setGreen(Graphics g) {
         g.setColor(Color.cyan);
+    }
+
+    private void setRandomColor(Graphics g) {
+        Random random = new Random();
+        g.setColor(new Color(random.nextInt(156) + 100, random.nextInt(156) + 100, random.nextInt(156) + 100));
     }
 
     private void setStart(Graphics g) {
@@ -136,6 +142,7 @@ class FAPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         //FIXME Text will occupy each other
+        g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
         int x = X, y = Y;
         super.paint(g);
         HashMap<String, Pos> nodePosMap = new HashMap<>();
@@ -171,7 +178,7 @@ class FAPanel extends JPanel {
                 y -= 175;
                 ++cnt;
             }
-            x += 100;
+            x += 75;
             ++xCnt;
         }
         //Note FUNCTION HERE
@@ -181,7 +188,8 @@ class FAPanel extends JPanel {
                 y = nodePosMap.get(_node.getName()).centralY;
 //				lineMediumPoint.add(new Pos(x,y));
                 Pos pos = nodePosMap.get(edge.to.getName());
-                setBlue(g);
+//                setBlue(g);
+                setRandomColor(g);
                 if (pos == null) continue;
                 if (x == pos.centralX && y == pos.centralY) {
 //                        g.drawLine(x, y, pos.centralX, pos.centralY);
@@ -200,23 +208,22 @@ class FAPanel extends JPanel {
                         drawArrow(g, x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
 //                    drawArrow2(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
-                        setBlack(g);
+//                        setBlack(g);
 //                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23);
                         drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 23, (y + pos.centralY) / 2 + 23, line);
                     } else {
                         //FIXME Multiple lines cover each other
                         x -= 7;
                         y -= 7;
-                        setGreen(g);
+                        setRandomColor(g);
                         g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
                         Line line = new Line(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
 //                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);
                         char[] arr = edge.getAllTransitions().toCharArray();
-                        setCharColor(g);
+//                        setCharColor(g);
 //                        g.drawChars(arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22);
                         drawText(g, lineMediumPoint, arr, 0, arr.length, (x + pos.centralX) / 2 + 22, (y + pos.centralY) / 2 + 22, line);
-                        setBlack(g);
                     }
                 }
             }
