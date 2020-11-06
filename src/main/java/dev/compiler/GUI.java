@@ -142,7 +142,7 @@ class FAPanel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        //FIXME Text will occupy each other
+        //FIXME Text Size Won't Work
         g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
         int x = X, y = Y;
         super.paint(g);

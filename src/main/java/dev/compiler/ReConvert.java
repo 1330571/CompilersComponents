@@ -20,7 +20,7 @@ public class ReConvert {
      * 正规式转自动机
      */
     public NFA parseToFA() {
-
+        //TODO Check if the String validity like `(()*`
         Stack<Character> sym = new Stack<>();
         Stack<NFA> NFAs = new Stack<>();
         NFA result = null;
