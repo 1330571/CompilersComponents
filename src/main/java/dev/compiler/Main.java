@@ -1,5 +1,7 @@
 package dev.compiler;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         //构造一个接受含有01的自动机
@@ -46,9 +48,14 @@ public class Main {
         Matcher matcher = new Matcher(A);
 //        new GUI(A);
 
-        String s = "((a|b)*(ac|cb)*)*";
-        ReConvert reConvert = new ReConvert(s);
-        NFA nfa = reConvert.parseToFA();
-        new GUI(nfa.getStart());
+//        String s = "((a|b)*(ac|cb)*)*";
+        Scanner scanner = new Scanner(System.in);
+        String s = "((A| B)*( C|D)*)*";
+//        while ((s = scanner.nextLine()) != null) {
+            ReConvert reConvert = new ReConvert(s);
+
+            NFA nfa = reConvert.parseToFA();
+            new GUI(nfa.getStart());
+//        }
     }
 }

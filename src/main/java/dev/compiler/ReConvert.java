@@ -8,6 +8,11 @@ public class ReConvert {
 
     public ReConvert(String reExpr) {
         ReExpr = reExpr;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < reExpr.length(); ++i) {
+            if (reExpr.charAt(i) != ' ') str.append(reExpr.charAt(i));
+        }
+        reExpr = str.toString();
         state = 0;
     }
 
@@ -42,7 +47,7 @@ public class ReConvert {
                     }
                 }
 
-            } else if (type==1){
+            } else if (type == 1) {
                 if (c == '*') {
                     NFA t = NFAs.pop();
                     result = makeNFA_CL(t);
@@ -50,12 +55,12 @@ public class ReConvert {
                 } else if (c == '|') {
                     sym.push(c);
                 }
-            } else if (c == ')'){
+            } else if (c == ')') {
                 sym.pop();
-                if (NFAs.size()>=2) {
+                if (NFAs.size() >= 2) {
                     NFA t1 = NFAs.pop();
                     NFA t2 = NFAs.pop();
-                    result = makeNFA_AND(t1,t2);
+                    result = makeNFA_AND(t1, t2);
                     NFAs.push(result);
                 }
             }
@@ -69,7 +74,7 @@ public class ReConvert {
     /**
      * 判断字符类型，0 表示操作数， 1 表示操作符， 2 表示左右括号
      *
-     * @param c       待检查的字符
+     * @param c 待检查的字符
      */
     private int getType(char c) {
         if (c == '*' || c == '|') {
@@ -84,7 +89,7 @@ public class ReConvert {
     /**
      * 建立一个自动机，状态1通过a进入状态2
      *
-     * @param a       转换字符
+     * @param a 转换字符
      */
     private NFA makeNFA_S(char a) {
         Node n1 = new Node(String.valueOf(++state));
@@ -96,8 +101,8 @@ public class ReConvert {
     /**
      * 建立一个自动机，把两个自动机通过或关系连接起来
      *
-     * @param left      自动机1
-     * @param right     自动机2
+     * @param left  自动机1
+     * @param right 自动机2
      */
     private NFA makeNFA_OR(NFA left, NFA right) {
         Node pre = new Node(String.valueOf(++state));
@@ -112,7 +117,7 @@ public class ReConvert {
     /**
      * 建立一个自动机，把一个自动机通过闭包关系连接起来
      *
-     * @param op      自动机
+     * @param op 自动机
      */
     private NFA makeNFA_CL(NFA op) {
         Node pre = new Node(String.valueOf(++state));
@@ -127,8 +132,8 @@ public class ReConvert {
     /**
      * 建立一个自动机，把两个自动机通过与关系连接起来
      *
-     * @param left      自动机1
-     * @param right     自动机2
+     * @param left  自动机1
+     * @param right 自动机2
      */
     private NFA makeNFA_AND(NFA left, NFA right) {
         left.getEnd().addNextNode(right.getStart(), '$');
