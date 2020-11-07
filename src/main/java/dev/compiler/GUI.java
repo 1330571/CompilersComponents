@@ -23,6 +23,7 @@ public class GUI extends JFrame {
 
 class FAPanel extends JPanel {
     final Node node;
+    private Node highlightNode = null;
     final int fontSize = 20;
     final int X = 50;
     final int Y = 750;
@@ -138,6 +139,16 @@ class FAPanel extends JPanel {
         }
         arrayList.add(new Pos((int) innerX, (int) innerY));
         g.drawChars(arr, off, arr.length, (int) innerX, (int) innerY);
+    }
+
+    public void animationxtFrame(){
+        //TODO ADD CODE HERE
+
+    }
+
+    private void setHighlightNode(Node node){
+        //TODO ADD CODE HERE
+        highlightNode = node;
     }
 
     @Override

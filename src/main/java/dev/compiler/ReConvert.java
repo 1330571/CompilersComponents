@@ -107,10 +107,10 @@ public class ReConvert {
     private NFA makeNFA_OR(NFA left, NFA right) {
         Node pre = new Node(String.valueOf(++state));
         Node after = new Node(String.valueOf(++state));
-        pre.addNextNode(left.getStart(), '$');
-        pre.addNextNode(right.getStart(), '$');
-        left.getEnd().addNextNode(after, '$');
-        right.getEnd().addNextNode(after, '$');
+        pre.addNextNode(left.getStart(), 'Ɛ');
+        pre.addNextNode(right.getStart(), 'Ɛ');
+        left.getEnd().addNextNode(after, 'Ɛ');
+        right.getEnd().addNextNode(after, 'Ɛ');
         return new NFA(pre, after);
     }
 
@@ -122,10 +122,10 @@ public class ReConvert {
     private NFA makeNFA_CL(NFA op) {
         Node pre = new Node(String.valueOf(++state));
         Node after = new Node(String.valueOf(++state));
-        pre.addNextNode(op.getStart(), '$');
-        op.getEnd().addNextNode(after, '$');
-        op.getEnd().addNextNode(op.getStart(), '$');
-        pre.addNextNode(after, '$');
+        pre.addNextNode(op.getStart(), 'Ɛ');
+        op.getEnd().addNextNode(after, 'Ɛ');
+        op.getEnd().addNextNode(op.getStart(), 'Ɛ');
+        pre.addNextNode(after, 'Ɛ');
         return new NFA(pre, after);
     }
 
@@ -136,7 +136,7 @@ public class ReConvert {
      * @param right 自动机2
      */
     private NFA makeNFA_AND(NFA left, NFA right) {
-        left.getEnd().addNextNode(right.getStart(), '$');
+        left.getEnd().addNextNode(right.getStart(), 'Ɛ');
         return new NFA(left.getStart(), right.getEnd());
     }
 }

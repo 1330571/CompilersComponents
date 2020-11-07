@@ -46,10 +46,12 @@ public class Node {
         this.state = 1;//默认为普通结点
     }
 
+    @Deprecated
     public void addNextEdge(Edge edge) {
         nxt.add(edge);
     }
 
+    @Deprecated
     public void addPrevEdge(Edge edge) {
         prev.add(edge);
     }

@@ -1,22 +1,42 @@
-# A Toy That Translate Re Expr to Finite Automata
+# 简易正则表达式转换自动机工具
 
-## Features
+## 功能
 
-- Ugly GUI expression for FA
-- FA Match 
+- 简易的自动机GUI展示
+- 匹配不带有空转移的确定自动机
+- 将RE表达式转换为FA表示
 
-## Work In Progress
+## 开发中
 
-- Translate Re To Fa
-- Matching animation
+- 检查RE的合法性
+- 绘制匹配的动画
+- 可选输入RE表达式
+- 通过命令行输入RE
 
-## May Be In the future
+## 也许会添加
 
-- NFA 2 DFA
-- Minimize DFA 
+- NFA转换DFA
+- DFA的最小化 
 
-## Environment
+## 开发环境
 
-- IDE IntellijIdea 2020.3
-- Jdk Version: JDK14
-- Build By Maven
+- 集成开发环境 IntellijIdea 2020.2
+- JAVA版本 JAVA14
+- 项目管理 Maven
+
+## 介绍
+
+`Node` 类 提供自动机结点数据结构的定义，存储有一个`Edge`集合
+，表示它指向的结点，关键函数是`addNextNode`，`addPrevNode`由于设计失误
+遗留在`GUI`模块中
+
+`Edge` 类 表示结点之间的边数据结构，它存储了所有的转移函数于一个**Char**类型集合中
+
+`GUI` 类 绘图类，核心原理是通过遍历，将图按照一步能匹配到、两步能匹配到的类BFS方式
+分层绘制，这样只要不是回来的边会画的比较好看，同时采用一个`Set`记录转移函数的位置，避免大量文字
+混在一起的情况，但是对文字的检测按照固定值检测
+
+`ReConvert` 类 待补充
+
+`NFA2DFA` 类 待补充
+
