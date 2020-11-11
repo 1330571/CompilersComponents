@@ -58,10 +58,17 @@ public class ReConvert {
             } else if (c == ')') {
                 sym.pop();
                 if (NFAs.size() >= 2) {
-                    NFA t1 = NFAs.pop();
-                    NFA t2 = NFAs.pop();
-                    result = makeNFA_AND(t1, t2);
-                    NFAs.push(result);
+                    if (sym.size() > 0 && sym.peek() == '|') {
+                        NFA t1 = NFAs.pop();
+                        NFA t2 = NFAs.pop();
+                        result = makeNFA_OR(t1, t2);
+                        NFAs.push(result);
+                    } else if (i > 0 && ReExpr.charAt(i - 1) != '(') {
+                        NFA t2 = NFAs.pop();
+                        NFA t1 = NFAs.pop();
+                        result = makeNFA_AND(t1, t2);
+                        NFAs.push(result);
+                    }
                 }
             }
         }
@@ -104,14 +111,37 @@ public class ReConvert {
      * @param left  自动机1
      * @param right 自动机2
      */
-    private NFA makeNFA_OR(NFA left, NFA right) {
-        Node pre = new Node(String.valueOf(++state));
-        Node after = new Node(String.valueOf(++state));
-        pre.addNextNode(left.getStart(), 'Ɛ');
-        pre.addNextNode(right.getStart(), 'Ɛ');
-        left.getEnd().addNextNode(after, 'Ɛ');
-        right.getEnd().addNextNode(after, 'Ɛ');
-        return new NFA(pre, after);
+
+    private NFA makeNFA_OR(NFA left, NFA right){
+        int flag = 0;
+        for (Edge edge : right.getStart().getNxt()) {
+            System.out.println("[edge]:"+edge);
+            for (char c : edge.getAllTransitions().toCharArray()) {
+                if(edge.to.equals(right.getEnd())){
+                    left.getStart().addNextNode(left.getEnd(),edge.id,c);  //right只有一条边相连
+                    flag = 1;
+                }else{
+                    left.getStart().addNextNode(edge.to,edge.id,c);  //right有多条边相连
+                }
+            }
+        }
+
+        for (Edge edge : right.getEnd().getPrev()) {
+            if(flag==1)
+                break;
+            for (char c : edge.getAllTransitions().toCharArray()) {
+                if(edge.to.equals(right.getStart()))
+                    left.getStart().addNextNode(left.getEnd(),edge.id,c);
+                else{
+                    edge.to.addNextNode(left.getEnd(),edge.id,c);
+                    for (Edge edge1 : edge.to.getNxt()) {
+                        edge.to.reNxtEdge(edge1);
+                    }
+                }
+            }
+        }
+
+        return new NFA(left.getStart(),left.getEnd());
     }
 
     /**
@@ -119,14 +149,11 @@ public class ReConvert {
      *
      * @param op 自动机
      */
-    private NFA makeNFA_CL(NFA op) {
-        Node pre = new Node(String.valueOf(++state));
-        Node after = new Node(String.valueOf(++state));
-        pre.addNextNode(op.getStart(), 'Ɛ');
-        op.getEnd().addNextNode(after, 'Ɛ');
-        op.getEnd().addNextNode(op.getStart(), 'Ɛ');
-        pre.addNextNode(after, 'Ɛ');
-        return new NFA(pre, after);
+    private NFA makeNFA_CL(NFA op){
+        Node node = new Node(String.valueOf(++state));//新建一个点，用做闭包的基点
+        node.addNextNode(op.getStart(),'Ɛ');  //基点空转移到自动机op的初始节点
+        op.getEnd().addNextNode(node,'Ɛ');  //自动机op的终止节点空转移到基点
+        return new NFA(node,node);
     }
 
     /**
@@ -135,8 +162,13 @@ public class ReConvert {
      * @param left  自动机1
      * @param right 自动机2
      */
-    private NFA makeNFA_AND(NFA left, NFA right) {
-        left.getEnd().addNextNode(right.getStart(), 'Ɛ');
-        return new NFA(left.getStart(), right.getEnd());
+
+    private NFA makeNFA_AND(NFA left, NFA right){
+        for (Edge edge : right.getStart().getNxt()) {
+            for (char c : edge.getAllTransitions().toCharArray()) {
+                left.getEnd().addNextNode(edge.to,edge.id,c);
+            }
+        }
+        return new NFA(left.getStart(),right.getEnd());
     }
 }

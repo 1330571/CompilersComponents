@@ -4,9 +4,22 @@ import java.util.ArrayList;
 
 
 public class Node {
-    ArrayList<Edge> nxt = null;
-    ArrayList<Edge> prev = null;
+    private ArrayList<Edge> nxt = null;
+    private ArrayList<Edge> prev = null;
     private int state; //0 开始 1 普通 2终结
+
+
+    /***
+     *
+     * @param edge  将要被移除的边
+     */
+    public void reNxtEdge(Edge edge){
+        for (Edge edge1 : nxt) {
+            if(edge.equals(edge1)){
+                nxt.remove(edge1);
+            }
+        }
+    }
 
     public void setState(int state) {
         this.state = state;

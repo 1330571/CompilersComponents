@@ -5,10 +5,15 @@ import java.util.Random;
 
 
 public class Edge {
-    final Node to;
+    public Node to;
     final String id;
     final String name;
     ArrayList<Character> transitions = new ArrayList<>();
+
+
+    public void setTo(Node to) {
+        this.to = to;
+    }
 
     /**
      * 构造
