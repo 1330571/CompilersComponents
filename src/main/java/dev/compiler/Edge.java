@@ -73,7 +73,7 @@ public class Edge {
             stringBuilder.append(ch);
             stringBuilder.append('|');
         }
-        return stringBuilder.substring(0,stringBuilder.length() - 1).toString();
+        return stringBuilder.substring(0,stringBuilder.length() - 1);
     }
 }
 

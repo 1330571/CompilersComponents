@@ -3,7 +3,7 @@ package dev.compiler;
 import java.util.Stack;
 
 public class ReConvert {
-    private String ReExpr;
+    private final String ReExpr;
     private int state;
 
     public ReConvert(String reExpr) {

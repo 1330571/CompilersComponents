@@ -8,6 +8,6 @@ public class NFA2DFA {
     }
 
     public void parse(){
-        //TODO Parse NFA TO DFA Code Here
+        //Todo Parse NFA TO DFA Code Here
     }
 }
