@@ -49,11 +49,13 @@ public class Main {
 //        new GUI(A);
 
 //        String s = "(0|1)*(010)(0|1)*";
-        Scanner scanner = new Scanner(System.in);
-        String s = "(a|b)*";
+//        Scanner scanner = new Scanner(System.in);
+        String s = "(a|b|c|d|e|f|g|h)";
 //        while ((s = scanner.nextLine()) != null) {
         ReConvert reConvert = new ReConvert(s);
         NFA nfa = reConvert.parseToFA();
+        System.out.println("转移函数 "  + nfa.getStart().getNxt().get(0).getAllTransitions());
+        System.out.println("转移函数 "  + nfa.getEnd().getPrev().get(0).getAllTransitions());
         new GUI(nfa.getStart());
 //        }
     }

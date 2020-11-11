@@ -26,13 +26,14 @@ public class ReConvert {
         NFA result = null;
 
         for (int i = 0; i < ReExpr.length(); i++) {
-            Character c = ReExpr.charAt(i);
+            char c = ReExpr.charAt(i);
             int type = getType(c);
             if (c == '(') {
                 sym.push(c);
             } else if (type == 0) {
                 result = makeNFA_S(c);
                 NFAs.push(result);
+
                 if (NFAs.size() >= 2) {
                     if (sym.size() > 0 && sym.peek() == '|') {
                         NFA t1 = NFAs.pop();
@@ -63,7 +64,7 @@ public class ReConvert {
                         NFA t2 = NFAs.pop();
                         result = makeNFA_OR(t1, t2);
                         NFAs.push(result);
-                    } else if (i > 0 && ReExpr.charAt(i - 1) != '(') {
+                    } else if (ReExpr.charAt(i - 1) != '(') {
                         NFA t2 = NFAs.pop();
                         NFA t1 = NFAs.pop();
                         result = makeNFA_AND(t1, t2);
@@ -72,6 +73,7 @@ public class ReConvert {
                 }
             }
         }
+        assert result != null;
         result.getStart().setState(0);
         result.getEnd().setState(2);
         return result;

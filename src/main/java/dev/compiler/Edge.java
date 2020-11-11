@@ -72,6 +72,10 @@ public class Edge {
         return stringBuilder.toString();
     }
 
+    public ArrayList<Character> getTransitions() {
+        return transitions;
+    }
+
     public String getAllTransitions(){
         StringBuilder stringBuilder = new StringBuilder();
         for(char ch:transitions) {

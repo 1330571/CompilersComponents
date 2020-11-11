@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="re2fa" />
         <module name="CompilersComponents" />
+        <module name="re2fa" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14" />
