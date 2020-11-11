@@ -50,7 +50,7 @@ public class Main {
 
 //        String s = "(0|1)*(010)(0|1)*";
         Scanner scanner = new Scanner(System.in);
-        String s = "((AB)|(CD))*(A|B)*(CD)*((AB)|(C))*";
+        String s = "(a|b)*";
 //        while ((s = scanner.nextLine()) != null) {
         ReConvert reConvert = new ReConvert(s);
         NFA nfa = reConvert.parseToFA();
