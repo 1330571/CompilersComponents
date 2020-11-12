@@ -27,4 +27,13 @@ class ReConvertTest {
         matcher.matchStr("a");
     }
 
+    @Test
+    public void testValidity() {
+        String s1="123";
+        String s2 ="((as|)";
+        String s3="a*b|*a";
+        ReConvert r1 = new ReConvert(s3);
+
+    }
+
 }
