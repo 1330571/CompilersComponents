@@ -33,6 +33,5 @@ class MatcherTest {
         System.out.println("测试01111 输出应当为True");
         assertTrue(matcher.matchStr("01111"));
 
-        new GUI(A);
     }
 }

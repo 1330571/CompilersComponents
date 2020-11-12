@@ -138,6 +138,7 @@ class FAPanel extends JPanel {
         StringBuilder stringBuilder = new StringBuilder();
         for (char ch : arr) stringBuilder.append(ch);
         g.setFont(new Font(null, Font.PLAIN, fontSize));
+        
         g.drawString(stringBuilder.toString(), (int) innerX, (int) innerY);
     }
 
