@@ -48,7 +48,7 @@ class FAPanel extends JPanel {
 
     private void setRandomColor(Graphics g) {
         Random random = new Random();
-        g.setColor(new Color(random.nextInt(144) + 100, random.nextInt(144) + 90, random.nextInt(100) + 156));
+        g.setColor(new Color(random.nextInt(25) * 5 + 130, random.nextInt(25) * 3 + 120, random.nextInt(20) * 5 + 156));
     }
 
     private void setStart(Graphics g) {
@@ -111,13 +111,14 @@ class FAPanel extends JPanel {
     }
 
     private void drawText(Graphics g, ArrayList<Pos> arrayList, char[] arr, int off, int len, int x, int y, Line line) {
+        assert (arr.length != 0);
         Random random = new Random();
         Pos _pos = new Pos(x, y);
-        double innerX = x, innerY = y;
+        double innerX = x - arr.length * 5, innerY = y;
         while (true) {
             boolean notCover = false;
             for (Pos pos : arrayList) {
-                if (dis(pos, new Pos((int) innerX, (int) innerY)) < 15.0) {
+                if (dis(pos, new Pos((int) innerX, (int) innerY)) < 18.0) {
                     notCover = true;
                     break;
                 }
@@ -138,7 +139,6 @@ class FAPanel extends JPanel {
         StringBuilder stringBuilder = new StringBuilder();
         for (char ch : arr) stringBuilder.append(ch);
         g.setFont(new Font(null, Font.PLAIN, fontSize));
-        
         g.drawString(stringBuilder.toString(), (int) innerX, (int) innerY);
     }
 
@@ -194,7 +194,7 @@ class FAPanel extends JPanel {
                 y -= 175;
                 ++cnt;
             }
-            x += 85;
+            x += 105;
             ++xCnt;
             if (xCnt == 14) {
                 x = 100;
@@ -221,7 +221,14 @@ class FAPanel extends JPanel {
                     if (x > pos.centralX) {
                         x += 7;
                         y += 7;
-                        g.drawLine(x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
+                        int baseL = 12;
+                        int targetX = pos.centralX + 20 + 7;
+                        int targetY = pos.centralY + 25 + 7;
+                        int disX = Math.abs(targetX - x);
+                        int disY = Math.abs(targetY - y);
+                        double theta = Math.asin(disY / Math.sqrt(disX * disX + disY * disY));
+
+                        g.drawLine(x + 25, y + 25, (int) (targetX - Math.cos(theta) * baseL), (int) (targetY - Math.sin(theta) * baseL));
 //                        g.drawOval(pos.centralX + 20 + 7, pos.centralY + 25 + 7, 5, 5);
                         Line line = new Line(x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
                         drawArrow(g, x + 25, y + 25, pos.centralX + 20 + 7, pos.centralY + 25 + 7);
@@ -234,8 +241,17 @@ class FAPanel extends JPanel {
                         //FIXME Multiple lines cover each other
                         x -= 7;
                         y -= 7;
+                        int baseL = 12;
+
+                        int targetX = pos.centralX + 20 - 7;
+                        int targetY = pos.centralY + 25 - 7;
+                        int disX = Math.abs(targetX - x);
+                        int disY = Math.abs(targetY - y);
+
+                        double theta = Math.asin(disY / Math.sqrt(disX * disX + disY * disY));
+
                         setRandomColor(g);
-                        g.drawLine(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
+                        g.drawLine(x + 25, y + 25, (int) (targetX - Math.cos(theta) * baseL), (int) (targetY - Math.sin(theta) * baseL));
                         Line line = new Line(x + 25, y + 25, pos.centralX + 20 - 7, pos.centralY + 25 - 7);
 //                        drawArrow(g, x + 25, y + 25, pos.centralX + 20, pos.centralY + 25);
                         drawArrow2(g, pos.centralX + 20 - 7, pos.centralY + 25 - 7, x + 25, y + 25);

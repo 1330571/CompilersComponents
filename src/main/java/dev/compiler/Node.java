@@ -14,11 +14,7 @@ public class Node {
      * @param edge  将要被移除的边
      */
     public void reNxtEdge(Edge edge) {
-        for (Edge edge1 : nxt) {
-            if (edge.equals(edge1)) {
-                nxt.remove(edge1);
-            }
-        }
+        nxt.removeIf(edge::equals);
     }
 
     public void setState(int state) {
@@ -77,6 +73,9 @@ public class Node {
      * @param transition 转移函数
      */
     public void addNextNode(Node node, String id, char transition) {
+        if (transition == '|') {
+            return;
+        }
         node.addPrevNode(this, id, transition);
 //        assert (transition == '|');
         for (Edge edge : nxt) {
@@ -92,6 +91,9 @@ public class Node {
     }
 
     public void addNextNode(Node node, char transition) {
+        if (transition == '|') {
+            return;
+        }
         node.addPrevNode(this, transition);
         for (Edge edge : nxt) {
             if (edge.to == node) {

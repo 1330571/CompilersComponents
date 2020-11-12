@@ -1,9 +1,15 @@
 package dev.compiler;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
+        if (args.length != 0) {
+            ReConvert reConvert = new ReConvert(args[0]);
+            NFA nfa = reConvert.parseToFA();
+//        System.out.println("转移函数 "  + nfa.getStart().getNxt().get(0).getAllTransitions());
+//        System.out.println("转移函数 "  + nfa.getEnd().getPrev().get(0).getAllTransitions());
+            new GUI(nfa.getStart());
+            return;
+        }
         //构造一个接受含有01的自动机
         // A --0--> B --1--> C
         // B接受0 返回B，接受1 前往C
@@ -50,7 +56,8 @@ public class Main {
 
 //        String s = "(0|1)*(010)(0|1)*";
 //        Scanner scanner = new Scanner(System.in);
-        String s = "((abc)*(abc)*(abc)*(abc)*(abc)*)*";
+//        String s = "a|b|c|d|e|f|g|h|i";
+        String s = "((a|b|c|d|e)*(c|d|e)*(c|d|e)*)*(abc)*(a|b|c)*";
 //        while ((s = scanner.nextLine()) != null) {
         ReConvert reConvert = new ReConvert(s);
         NFA nfa = reConvert.parseToFA();

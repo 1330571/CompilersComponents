@@ -68,11 +68,7 @@ public class ReConvert {
     private boolean isValidateChar(char c) {
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
             return true;
-        } else if (c == '|' || c == '*' || c == '(' || c == ')') {
-            return true;
-        } else {
-            return false;
-        }
+        } else return c == '|' || c == '*' || c == '(' || c == ')';
     }
 
     /**
