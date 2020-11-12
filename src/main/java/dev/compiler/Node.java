@@ -77,14 +77,14 @@ public class Node {
      * @param transition 转移函数
      */
     public void addNextNode(Node node, String id, char transition) {
+        node.addPrevNode(this, id, transition);
         assert (transition == '|');
         for (Edge edge : nxt) {
             if (edge.to == node) {
-                for (char ch : edge.getTransitions())
-                    if (ch == transition)
-                        return;
+//                for (char ch : edge.getTransitions())
+//                    if (ch == transition)
+//                        return;
                 edge.addTransition(transition);
-                node.addPrevNode(this, id, transition);
                 return;
             }
         }
@@ -92,11 +92,12 @@ public class Node {
     }
 
     public void addNextNode(Node node, char transition) {
+        node.addPrevNode(this, transition);
         for (Edge edge : nxt) {
             if (edge.to == node) {
-                for (char ch : edge.getTransitions())
-                    if (ch == transition)
-                        return;
+//                for (char ch : edge.getTransitions())
+//                    if (ch == transition)
+//                        return;
                 edge.addTransition(transition);
                 node.addPrevNode(this, transition);
                 return;

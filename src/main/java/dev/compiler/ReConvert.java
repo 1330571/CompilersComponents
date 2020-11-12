@@ -114,7 +114,7 @@ public class ReConvert {
      * @param right 自动机2
      */
 
-    private NFA makeNFA_OR(NFA left, NFA right){
+    private NFA makeNFA_OR(NFA right, NFA left){
         int flag = 0;
         for (Edge edge : right.getStart().getNxt()) {
             System.out.println("[edge]:"+edge);
