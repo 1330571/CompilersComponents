@@ -57,7 +57,7 @@ public class Main {
 //        String s = "(0|1)*(010)(0|1)*";
 //        Scanner scanner = new Scanner(System.in);
 //        String s = "a|b|c|d|e|f|g|h|i";
-        String s = "((a|b|c|d|e)*(c|d|e)*(c|d|e)*)*(abc)*(a|b|c)*";
+        String s = "a|*";
 //        while ((s = scanner.nextLine()) != null) {
         ReConvert reConvert = new ReConvert(s);
         NFA nfa = reConvert.parseToFA();

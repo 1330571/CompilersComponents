@@ -1,5 +1,6 @@
 package dev.compiler;
 
+import java.io.Reader;
 import java.util.Stack;
 
 public class ReConvert {
@@ -52,7 +53,7 @@ public class ReConvert {
             if (c1 == '|' && (c2 == '*' || c2 == '|')) {
                 throw new Exception("|后不能有|或*");
             } else if (c1 == '*' && c2 == '*') {
-                throw new Exception("*后能能有*");
+                throw new Exception("*后不能有*");
             }
         }
         if (str.charAt(str.length() - 1) == ')') {
@@ -90,7 +91,11 @@ public class ReConvert {
                 NFAs.push(result);
 
                 if (NFAs.size() >= 2) {
-                    if (sym.size() > 0 && sym.peek() == '|') {
+                    if (sym.size() > 0 && sym.peek() == '|') {  //考虑单个的闭包
+                        System.out.println("aaaa"+ReExpr.charAt(i));
+                        if(i+1<ReExpr.length()&&ReExpr.charAt(i+1)=='*'){  //考虑到 形如 ab|a* 这种情况，需要我们向后考虑
+                            continue;
+                        }
                         NFA t1 = NFAs.pop();
                         NFA t2 = NFAs.pop();
                         result = makeNFA_OR(t1, t2);
@@ -102,12 +107,26 @@ public class ReConvert {
                         NFAs.push(result);
                     }
                 }
-
             } else if (type == 1) {
                 if (c == '*') {
                     NFA t = NFAs.pop();
                     result = makeNFA_CL(t);
                     NFAs.push(result);
+                    System.out.println("dddddddd"+NFAs.size());
+                    if (NFAs.size() >= 2) {
+                        System.out.println("5555555555555555555555555555");
+                        if (sym.size() > 0 && sym.peek() == '|' && (i+1>=ReExpr.length()||ReExpr.charAt(i+1)!='*')) {  //考虑单个的闭包
+                            NFA t1 = NFAs.pop();
+                            NFA t2 = NFAs.pop();
+                            result = makeNFA_OR(t1, t2);
+                            NFAs.push(result);
+                        } else if (i > 0 && ReExpr.charAt(i - 1) != '(') {
+                            NFA t2 = NFAs.pop();
+                            NFA t1 = NFAs.pop();
+                            result = makeNFA_AND(t1, t2);
+                            NFAs.push(result);
+                        }
+                    }
                 } else if (c == '|') {
                     sym.push(c);
                 }
@@ -129,6 +148,8 @@ public class ReConvert {
             }
         }
         assert result != null;
+        System.out.println("============"+result.getStart().getName());
+        System.out.println("============"+result.getEnd().getName());
         result.getStart().setState(0);
         result.getEnd().setState(2);
         return result;
