@@ -78,7 +78,7 @@ public class Node {
      */
     public void addNextNode(Node node, String id, char transition) {
         node.addPrevNode(this, id, transition);
-        assert (transition == '|');
+//        assert (transition == '|');
         for (Edge edge : nxt) {
             if (edge.to == node) {
 //                for (char ch : edge.getTransitions())

@@ -1,3 +1,5 @@
 /target/
 /.vscode/
 /.DS.STORE
+/.idea/
+/.settings/

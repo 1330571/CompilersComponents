@@ -33,7 +33,6 @@ class ReConvertTest {
         String s2 ="((as|)";
         String s3="a*b|*a";
         ReConvert r1 = new ReConvert(s3);
-
     }
 
 }

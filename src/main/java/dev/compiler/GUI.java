@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 class FAPanel extends JPanel {
     final Node node;
     private Node highlightNode = null;
-    final int fontSize = 20;
+    final int fontSize = 24;
     final int X = 50;
     final int Y = 750;
     final int L = 20;
@@ -47,9 +47,8 @@ class FAPanel extends JPanel {
     }
 
     private void setRandomColor(Graphics g) {
-        //TODO Make This Color more reliable
         Random random = new Random();
-        g.setColor(new Color(random.nextInt(106) + 100, random.nextInt(100) + 56, random.nextInt(100) + 156));
+        g.setColor(new Color(random.nextInt(144) + 100, random.nextInt(144) + 90, random.nextInt(100) + 156));
     }
 
     private void setStart(Graphics g) {
@@ -96,8 +95,6 @@ class FAPanel extends JPanel {
             g.drawLine(x2, y2, (int) (x2 + L * Math.cos(Math.PI / 12 - theta)), (int) (y2 - L * Math.sin(Math.PI / 12 - theta)));
             theta += Math.PI / 12;
             g.drawLine(x2, y2, (int) (x2 + L * Math.cos(theta)), (int) (y2 + L * Math.sin(theta)));
-
-            //FIXME Error Performance
         }
     }
 
@@ -114,14 +111,13 @@ class FAPanel extends JPanel {
     }
 
     private void drawText(Graphics g, ArrayList<Pos> arrayList, char[] arr, int off, int len, int x, int y, Line line) {
-        //FIXME ERROR FLOATING
         Random random = new Random();
         Pos _pos = new Pos(x, y);
         double innerX = x, innerY = y;
         while (true) {
             boolean notCover = false;
             for (Pos pos : arrayList) {
-                if (dis(pos, new Pos((int) innerX, (int) innerY)) < 10.0) {
+                if (dis(pos, new Pos((int) innerX, (int) innerY)) < 15.0) {
                     notCover = true;
                     break;
                 }
@@ -138,15 +134,19 @@ class FAPanel extends JPanel {
             }
         }
         arrayList.add(new Pos((int) innerX, (int) innerY));
-        g.drawChars(arr, off, arr.length, (int) innerX, (int) innerY);
+//        g.drawChars(arr, off, arr.length, (int) innerX, (int) innerY);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char ch : arr) stringBuilder.append(ch);
+        g.setFont(new Font(null, Font.PLAIN, fontSize));
+        g.drawString(stringBuilder.toString(), (int) innerX, (int) innerY);
     }
 
-    public void animationxtFrame(){
+    public void animationFrame() {
         //TODO ADD CODE HERE
 
     }
 
-    private void setHighlightNode(Node node){
+    private void setHighlightNode(Node node) {
         //TODO ADD CODE HERE
         highlightNode = node;
     }
@@ -154,7 +154,7 @@ class FAPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         //FIXME Text Size Won't Work
-        g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+        g.setFont(new Font(null, Font.PLAIN, fontSize));
         int x = X, y = Y;
         super.paint(g);
         HashMap<String, Pos> nodePosMap = new HashMap<>();
