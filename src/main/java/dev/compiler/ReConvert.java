@@ -92,10 +92,10 @@ public class ReConvert {
 
                 if (NFAs.size() >= 2) {
                     if (sym.size() > 0 && sym.peek() == '|') {  //考虑单个的闭包
-                        System.out.println("aaaa"+ReExpr.charAt(i));
                         if(i+1<ReExpr.length()&&ReExpr.charAt(i+1)=='*'){  //考虑到 形如 ab|a* 这种情况，需要我们向后考虑
                             continue;
                         }
+                        sym.pop();
                         NFA t1 = NFAs.pop();
                         NFA t2 = NFAs.pop();
                         result = makeNFA_OR(t1, t2);
@@ -112,9 +112,7 @@ public class ReConvert {
                     NFA t = NFAs.pop();
                     result = makeNFA_CL(t);
                     NFAs.push(result);
-                    System.out.println("dddddddd"+NFAs.size());
                     if (NFAs.size() >= 2) {
-                        System.out.println("5555555555555555555555555555");
                         if (sym.size() > 0 && sym.peek() == '|' && (i+1>=ReExpr.length()||ReExpr.charAt(i+1)!='*')) {  //考虑单个的闭包
                             NFA t1 = NFAs.pop();
                             NFA t2 = NFAs.pop();
@@ -129,6 +127,7 @@ public class ReConvert {
                     }
                 } else if (c == '|') {
                     sym.push(c);
+                    //判断一下是否已经存在 |
                 }
             } else if (c == ')') {
                 sym.pop();
@@ -188,10 +187,22 @@ public class ReConvert {
      * @param left  自动机1
      * @param right 自动机2
      */
-    private NFA makeNFA_OR(NFA right, NFA left) {
-        int flag = 0;
+//
+    private NFA makeNFA_OR(NFA right,NFA left){
+        if(right.getStart()==right.getEnd()&&left.getEnd()!=left.getStart()){  //其中一个是闭包
+            left.getStart().addNextNode(right.getStart(),'Ɛ');
+            right.getStart().addNextNode(left.getEnd(),'Ɛ');
+            return new NFA(left.getStart(),left.getEnd());
+        }
+
+        if(right.getStart()!=right.getEnd()&&left.getEnd()==left.getStart()){  //其中一个是闭包
+            right.getStart().addNextNode(left.getStart(),'Ɛ');
+            left.getStart().addNextNode(right.getEnd(),'Ɛ');
+            return new NFA(right.getStart(),right.getEnd());
+        }
+
+        int flag = 0;  //其他情况
         for (Edge edge : right.getStart().getNxt()) {
-            System.out.println("[edge]:" + edge);
             for (char c : edge.getAllTransitions().toCharArray()) {
                 if (edge.to.equals(right.getEnd())) {
                     left.getStart().addNextNode(left.getEnd(), edge.id, c); // right只有一条边相连
@@ -216,15 +227,59 @@ public class ReConvert {
                 }
             }
         }
-
         return new NFA(left.getStart(), left.getEnd());
     }
+
+//    private NFA makeNFA_OR(NFA right, NFA left) {
+//        int flag = 0;
+//        if(right.getStart()==right.getEnd()){
+//            NFA nfa = left;
+//            left = right;
+//            right = nfa;
+//        }
+//        for (Edge edge : right.getStart().getNxt()) {
+//            for (char c : edge.getAllTransitions().toCharArray()) {
+//                if (edge.to.equals(right.getEnd())) {
+//                    left.getStart().addNextNode(left.getEnd(), edge.id, c); // right只有一条边相连
+//                    flag = 1;
+//                } else {
+//                    left.getStart().addNextNode(edge.to, edge.id, c); // right有多条边相连
+//                }
+//            }
+//        }
+//
+//        for (Edge edge : right.getEnd().getPrev()) {
+//            if (flag == 1)
+//                break;
+//            for (char c : edge.getAllTransitions().toCharArray()) {
+//                if (edge.to.equals(right.getStart()))
+//                    left.getStart().addNextNode(left.getEnd(), edge.id, c);
+//                else {
+//                    edge.to.addNextNode(left.getEnd(), edge.id, c);
+//                    for (Edge edge1 : edge.to.getNxt()) {
+//                        edge.to.reNxtEdge(edge1);
+//                    }
+//                }
+//            }
+//        }
+//        return new NFA(left.getStart(), left.getEnd());
+//    }
 
     /**
      * 建立一个自动机，把一个自动机通过闭包关系连接起来
      *
      * @param op 自动机
      */
+//    private NFA makeNFA_CL(NFA op) {
+//        Node pre = new Node(String.valueOf(++state));
+//        Node after = new Node(String.valueOf(++state));
+//        pre.addNextNode(op.getStart(), 'Ɛ');
+//        op.getEnd().addNextNode(after, 'Ɛ');
+//        op.getEnd().addNextNode(op.getStart(), 'Ɛ');
+//        pre.addNextNode(after, 'Ɛ');
+//        return new NFA(pre, after);
+//    }
+
     private NFA makeNFA_CL(NFA op) {
         Node node = new Node(String.valueOf(++state));// 新建一个点，用做闭包的基点
         node.addNextNode(op.getStart(), 'Ɛ'); // 基点空转移到自动机op的初始节点
