@@ -114,6 +114,7 @@ public class ReConvert {
                     NFAs.push(result);
                     if (NFAs.size() >= 2) {
                         if (sym.size() > 0 && sym.peek() == '|' && (i+1>=ReExpr.length()||ReExpr.charAt(i+1)!='*')) {  //考虑单个的闭包
+                            sym.pop();
                             NFA t1 = NFAs.pop();
                             NFA t2 = NFAs.pop();
                             result = makeNFA_OR(t1, t2);
