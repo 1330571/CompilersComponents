@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="08131188-91ac-4451-921d-42d1a51525a9" name="默认更改列表" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Maven\MavenRepository" />
+        <option name="mavenHome" value="D:/Maven/apache-maven-3.6.3" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1kSgzpS6zlpzejjFoF3E50QxGld" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/chen/First" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15332031" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\FromUpToDown\src\main\java\com\chen\First" />
+      <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\FromUpToDown\src\main\java\com\chen\production" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.FirstTest.test">
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.chen.test" />
+      <module name="FromUpToDown" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FirstTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FromUpToDown" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chen" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.FirstTest.test" />
+        <item itemvalue="Application.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="08131188-91ac-4451-921d-42d1a51525a9" name="默认更改列表" comment="" />
+      <created>1605699671694</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605699671694</updated>
+      <workItem from="1605699675033" duration="3621000" />
+      <workItem from="1605713779614" duration="4074000" />
+      <workItem from="1605792040658" duration="1021000" />
+      <workItem from="1605853075787" duration="608000" />
+      <workItem from="1605861470447" duration="11056000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="532" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1605865472172">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state x="532" y="149" key="#com.intellij.ide.util.MemberChooser/0.0.1449.864@0.0.1449.864" timestamp="1605865472172" />
+    <state x="155" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1605701484409">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state x="155" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1449.864@0.0.1449.864" timestamp="1605701484409" />
+    <state x="319" y="92" key="#项目结构" timestamp="1605701528207">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state x="319" y="92" key="#项目结构/0.0.1449.864@0.0.1449.864" timestamp="1605701528207" />
+    <state width="1405" height="311" key="GridCell.Tab.0.bottom" timestamp="1605880507369">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state width="1405" height="311" key="GridCell.Tab.0.bottom/0.0.1449.864@0.0.1449.864" timestamp="1605880507369" />
+    <state width="1405" height="311" key="GridCell.Tab.0.center" timestamp="1605880507369">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state width="1405" height="311" key="GridCell.Tab.0.center/0.0.1449.864@0.0.1449.864" timestamp="1605880507369" />
+    <state width="1405" height="311" key="GridCell.Tab.0.left" timestamp="1605880507369">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state width="1405" height="311" key="GridCell.Tab.0.left/0.0.1449.864@0.0.1449.864" timestamp="1605880507369" />
+    <state width="1405" height="311" key="GridCell.Tab.0.right" timestamp="1605880507369">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state width="1405" height="311" key="GridCell.Tab.0.right/0.0.1449.864@0.0.1449.864" timestamp="1605880507369" />
+    <state x="228" y="15" key="SettingsEditor" timestamp="1605700695791">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state x="228" y="15" key="SettingsEditor/0.0.1449.864@0.0.1449.864" timestamp="1605700695791" />
+    <state x="388" y="182" width="672" height="678" key="search.everywhere.popup" timestamp="1605871895165">
+      <screen x="0" y="0" width="1449" height="864" />
+    </state>
+    <state x="388" y="182" width="672" height="678" key="search.everywhere.popup/0.0.1449.864@0.0.1449.864" timestamp="1605871895165" />
+  </component>
+</project>
