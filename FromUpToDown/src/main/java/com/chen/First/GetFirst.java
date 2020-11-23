@@ -141,6 +141,10 @@ public class GetFirst {
         return firsts;
     }
 
+    /**
+     *  找出该文法的First集，前提条件是所有文法的First集都求完
+     *  @param language 给定文法
+     * */
     public List<Character> getOneLanguageFirst(Language language) {
         List<Character> languageFirst = new ArrayList<>();
         for (int i = 0; i < language.getMatch().length; i++) {

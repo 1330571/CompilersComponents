@@ -47,8 +47,8 @@ public class FirstTest {
 //        }
 
         FAT fat = new FAT(aLanguage);
-        fat.createTable();
-        System.out.println(fat.tableToString());
+        System.out.println(fat.predict("i*i+i"));
+        //System.out.println(fat.tableToString());
     }
 
 }

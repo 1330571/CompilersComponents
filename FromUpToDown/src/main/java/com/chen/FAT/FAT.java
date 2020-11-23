@@ -7,10 +7,7 @@ import com.chen.Follow.GetFollow;
 import com.chen.production.ALanguage;
 import com.chen.production.Language;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*预测分析表*/
 public class FAT {
@@ -20,6 +17,7 @@ public class FAT {
     private Map<Character, First> firsts = new HashMap<>();
     private Map<Character, Follow> follows = new HashMap<>();
     private Map<Character, Map<Character, Language>> table = new HashMap<>();//预测分析表
+    private boolean isCreateTable = false;
 
     /**
      * @param aLanguage 这里要求输入一个已经解析好的文法
@@ -33,9 +31,17 @@ public class FAT {
         for (Follow follow : getFollow.getFollows(aLanguage, getFirst.getFirsts())) {
             follows.put(follow.getNTerminal(), follow);
         }
+        //创建预测分析表
+        createTable();
     }
 
+    /**
+     *  在给定文法中，找出First集中存在终结符t的文法。该函数用于建表时，找出table[A][*]对应的文法
+     *  @param ntLanguage 给定文法
+     *  @param t 待寻找的终结符
+     * */
     private Language getLanguageByTerminal(List<Language> ntLanguage, Character t) {
+        //遍历所有文法，若该文法的First中含有t，则返回该文法
         for (Language La : ntLanguage) {
             if (getFirst.getOneLanguageFirst(La).contains(t)) {
                 return La;
@@ -44,7 +50,10 @@ public class FAT {
         return null;
     }
 
-    public void createTable() {
+    /**
+    *  创建预测分析表
+    * */
+    private void createTable() {
         List<Character> terminals = aLanguage.getTerminal();
         terminals.add('#');
         for (Character nt : aLanguage.getNotTerminal()) {
@@ -60,7 +69,7 @@ public class FAT {
                 if (!first.IsOfFirst(t)) {
                     if (flag && follow.IsOfFollow(t)) {
                         char[] cc = {'$'};
-                        Language emptyLanguage = new Language(nt,cc);
+                        Language emptyLanguage = new Language(nt, cc);
                         row.put(t, emptyLanguage);
                     } else {
                         row.put(t, null);
@@ -72,6 +81,59 @@ public class FAT {
             }
             table.put(nt, row);
         }
+        isCreateTable = true;
+    }
+
+    /**
+     * @param s 待预测的字符串
+     */
+    public boolean predict(String s) {
+        if (!isCreateTable) {
+            System.out.println("预测分析表还未构建");
+            return false;
+        }
+        Stack<Character> inputStack = new Stack<>();//输入串
+        Stack<Character> symbolStack = new Stack<>();//符号栈
+
+        // 1.构建输入串的栈，栈底是#
+        inputStack.push('#');
+        for (int i = s.length() - 1; i >= 0; i--) {
+            inputStack.push(s.charAt(i));
+        }
+
+        // 2.符号栈压入#和开始符号
+        symbolStack.push('#');
+        symbolStack.push(aLanguage.getNotTerminal().get(0));
+
+        // 3.开始预测分析
+        while (!symbolStack.empty()) {
+            // 3.1 取符号栈，输入串首字符
+            Character symbol = symbolStack.peek();
+            Character input = inputStack.peek();
+            // 3.2 若两个首字符相同，则表明都为终结符，出栈
+            if (symbol == input) {
+                symbolStack.pop();
+                inputStack.pop();
+                continue;
+            }
+            // 3.3 首字符不相同，根据预测分析表找对应的文法
+            Language language = table.get(symbol).get(input);
+            // 3.4 若文法为null,表示预测失败
+            if (language != null) {
+                // 3.5 符号栈顶出栈，把文法倒序入栈，空字符不入栈
+                char[] match = language.getMatch();
+                symbolStack.pop();
+                for (int i = match.length - 1; i >= 0; i--) {
+                    char c = match[i];
+                    if (c != '$') {
+                        symbolStack.push(c);
+                    }
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String tableToString() {
@@ -86,7 +148,7 @@ public class FAT {
                 if (language == null) {
                     s += "err},";
                 } else {
-                    s += (nt+"->"+Arrays.toString(language.getMatch()) + "},");
+                    s += (nt + "->" + Arrays.toString(language.getMatch()) + "},");
                 }
             }
             s += "\n";

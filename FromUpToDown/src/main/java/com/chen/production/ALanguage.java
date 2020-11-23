@@ -54,6 +54,10 @@ public class ALanguage {
         return Terminal;
     }
 
+    /**
+     * 从所有文法中，找出所有非终结符nt的文法
+     * @param nt 非终结符
+     * */
     public List<Language> getLanguage(Character nt) {
         List<Language> ntLanguage = new ArrayList<>();
         Language language = null;
