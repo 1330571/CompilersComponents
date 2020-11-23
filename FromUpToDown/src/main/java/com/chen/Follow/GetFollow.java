@@ -21,7 +21,7 @@ public class GetFollow {
      * @param NT 非终结符
      * @return
      */
-    private Follow findFollowByNTerminal(Character NT){
+    public Follow findFollowByNTerminal(Character NT){
         for (Follow follow : follows) {
             if(follow.getNTerminal()==NT){
                 return follow;

@@ -1,5 +1,6 @@
 package com.chen;
 
+import com.chen.FAT.FAT;
 import com.chen.First.First;
 import com.chen.First.GetFirst;
 import com.chen.Follow.Follow;
@@ -29,21 +30,25 @@ public class FirstTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //First集
-        GetFirst getFirst = new GetFirst();
-        List<First> firsts = getFirst.getFirsts(aLanguage);
-        for (First first : firsts) {
-            System.out.println(first.toString());
-        }
+//        //First集
+//        GetFirst getFirst = new GetFirst();
+//        List<First> firsts = getFirst.getFirsts(aLanguage);
+//        for (First first : firsts) {
+//            System.out.println(first.toString());
+//        }
+//
+//        System.out.println("*******************************************");
+//
+//        //Follow集
+//        GetFollow getFollow = new GetFollow();
+//        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);
+//        for (Follow follow : follows) {
+//            System.out.println(follow.toString());
+//        }
 
-        System.out.println("*******************************************");
-
-        //Follow集
-        GetFollow getFollow = new GetFollow();
-        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);
-        for (Follow follow : follows) {
-            System.out.println(follow.toString());
-        }
+        FAT fat = new FAT(aLanguage);
+        fat.createTable();
+        System.out.println(fat.tableToString());
     }
 
 }

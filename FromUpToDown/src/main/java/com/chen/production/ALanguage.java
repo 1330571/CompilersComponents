@@ -15,9 +15,7 @@ public class ALanguage {
     }
 
     /**
-     *
-     * @param s
-     * 将用户输入的String类型文法进行转化
+     * @param s 将用户输入的String类型文法进行转化
      */
     public void createALanguage(String s[]) throws Exception {
         //将String类型的输入转化为文法
@@ -27,12 +25,16 @@ public class ALanguage {
             list.add(language);
 
             //找到文法中所有的非终结符
-            if(NotTerminal.contains(language.getNTerminal())==false) {
+            if (NotTerminal.contains(language.getNTerminal()) == false) {
                 NotTerminal.add(language.getNTerminal());
             }
             //找寻文法中的所有终结符
             for (int i1 = 0; i1 < language.getMatch().length; i1++) {
-                if((language.getMatch()[i1]<'A'||language.getMatch()[i1]>'Z')&&Terminal.contains(language.getMatch()[i1])==false){
+                Character c = language.getMatch()[i1];
+                if ((c < 'A' || c > 'Z') && Terminal.contains(c) == false) {
+                    if (c == '$') {
+                        continue;
+                    }
                     //扫描文法中的每一个match 如果Terminal中不存在就加入Terminal中
                     Terminal.add(language.getMatch()[i1]);
                 }
@@ -50,5 +52,17 @@ public class ALanguage {
 
     public ArrayList<Character> getTerminal() {
         return Terminal;
+    }
+
+    public List<Language> getLanguage(Character nt) {
+        List<Language> ntLanguage = new ArrayList<>();
+        Language language = null;
+        for (int i = 0; i < list.size(); i++) {
+            language = list.get(i);
+            if (language.getNTerminal() == nt) {
+                ntLanguage.add(language);
+            }
+        }
+        return ntLanguage;
     }
 }
