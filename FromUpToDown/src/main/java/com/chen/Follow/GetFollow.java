@@ -128,7 +128,7 @@ public class GetFollow {
 
                 int j = language.getMatch().length - 1;
                 //对每一个产生式从后往前遍历
-                for(j = language.getMatch().length - 1 ; j>0;j--){
+                for(j = language.getMatch().length - 1 ; j>=0;j--){
                     Character a = language.getMatch()[j];
                     if(IsNTerminal(a)==true){
                         Follow followNT = findFollowByNTerminal(language.getNTerminal());
@@ -140,7 +140,7 @@ public class GetFollow {
                     }
 
                     //A->..CB   如果B->$  则继续将follow(A) 加到 follow(C)中
-                    if(findFirstBySymbol(a).IsOfFirst('$')){
+                    if(findFirstBySymbol(a)!=null&&findFirstBySymbol(a).IsOfFirst('$')){
                         continue;
                     }
 

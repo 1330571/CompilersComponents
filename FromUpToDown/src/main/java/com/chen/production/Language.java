@@ -32,14 +32,23 @@ public class Language {
     public Language() {
     }
 
+    public  void setNT(char nt)
+    {
+      this.NTerminal=nt;
+    }
+    public void setMatch1(char []match){
+        this.match=match;
+    }
     public char getNTerminal() {
         return NTerminal;
     }
 
+    public int getlength(){return match.length;}
+
     public char[] getMatch() {
         return match;
     }
-
+    public char getMatch1(int i){return match[i];}
     @Override
     public String toString() {
         return "Language{" +

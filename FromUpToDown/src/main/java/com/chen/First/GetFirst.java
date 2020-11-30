@@ -62,7 +62,7 @@ public class GetFirst {
      */
     private boolean InsertFirst(Character NT, Character T) {
         First first = findFirstByNTerminal(NT);
-        if (first.IsOfFirst(T) == false) {
+        if (first!=null&&first.IsOfFirst(T) == false) {
             first.add(T);
             return true;
         }
