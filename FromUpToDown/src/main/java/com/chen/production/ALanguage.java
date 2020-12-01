@@ -25,6 +25,20 @@ public class ALanguage {
 
     }
 
+    private List<String> splitOR(String s) {
+        List<String> strs = new ArrayList<>();
+        if (!s.contains("|")) {
+            strs.add(s);
+        } else {
+            String[] t = s.split("\\|");
+            strs.add(t[0]);
+            String newStr = t[0].substring(0,3);
+            newStr += t[1];
+            strs.add(newStr);
+        }
+        return strs;
+    }
+
     public void createALanguage(String s[]) throws Exception {
         createALanguage(s, false);
     }
@@ -33,8 +47,13 @@ public class ALanguage {
      * @param s 将用户输入的String类型文法进行转化
      */
     public void createALanguage(String s[], boolean eliminateLeftRecursions) throws Exception {
-        //将String类型的输入转化为文法
+
+        List<String> strs = new ArrayList<>();
         for (String value : s) {
+            strs.addAll(splitOR(value));
+        }
+        //将String类型的输入转化为文法
+        for (String value : strs) {
             Language language = new Language();
             language.S2L(value);  //将String类型的文法进行转化
             System.out.println("**" + language);
