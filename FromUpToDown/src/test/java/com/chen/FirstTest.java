@@ -1,73 +1,118 @@
 package com.chen;
 
-import com.chen.FAT.FAT;
 import com.chen.First.First;
 import com.chen.First.GetFirst;
-import com.chen.Follow.Follow;
-import com.chen.Follow.GetFollow;
 import com.chen.production.ALanguage;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FirstTest {
-
-    //测试样例是书上的例子
+    //最基本的测试类型，A应该能推出a
     @Test
-    public void test() {
-        String s1 = "A->ABC";
-        String s2 = "A->c";
-        String s3 = "C->+BC";
-        String s4 = "C->$";
-        String s5 = "B->DE";
-        String s6 = "E->E*DE";
-        String s7 = "E->$";
-        String s8 = "D->(A)";
-        String s9 = "D->i";
-        String[] s = {s1, s2, s3, s4, s5, s6, s7, s8, s9};
+    public void testFirst() {
+        String s1 = "A->aB";
+        String s2 = "B->aA";
+        String[] s = {s1, s2};
         ALanguage aLanguage = new ALanguage();
         try {
             aLanguage.createALanguage(s, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ALanguage.printLanguage(aLanguage);
-        //First集
         GetFirst getFirst = new GetFirst();
         List<First> firsts = getFirst.getFirsts(aLanguage);
-        System.out.println("*******************************************");
         for (First first : firsts) {
             if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
                 System.out.println(first.toString());
         }
-
-        System.out.println("*******************************************");
-
-        //Follow集
-        GetFollow getFollow = new GetFollow();
-        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);
-        for (Follow follow : follows) {
-            System.out.println(follow.toString());
-        }
-
-        FAT fat = new FAT(aLanguage);
-//        System.out.println(fat.predict("i*i+i"));
-        fat.printPredict();
-        System.out.println(fat.tableToString());
-        System.out.println(fat.printPredict());
+        assertEquals(firsts.get(0).getArrayList(), new ArrayList<Character>(Collections.singletonList('a')));
+        assertEquals(firsts.get(1).getArrayList(), new ArrayList<Character>(Collections.singletonList('a')));
     }
 
+    //此时A应该能够同时推出B和C的first集，所以应该为{$,b,c}
     @Test
-    public void testPredict1() throws Exception {
+    public void testFirst2() {
+        String s1 = "A->$";
+        String s11 = "A->B";
+        String s12 = "A->C";
+        String s2 = "B->b";
+        String s3 = "C->c";
+        String[] s = {s1, s2, s11, s12, s3};
+        ALanguage aLanguage = new ALanguage();
+        try {
+            aLanguage.createALanguage(s, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        GetFirst getFirst = new GetFirst();
+        List<First> firsts = getFirst.getFirsts(aLanguage);
+        for (First first : firsts) {
+            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
+                System.out.println(first.toString());
+        }
+        assertEquals(firsts.get(0).getArrayList(), new ArrayList<Character>(Arrays.asList('$', 'b', 'c')));
+    }
+
+    //此时考虑的是A所能推出的非终结符同时全部都有概率推出空集，所以所有的first集要考虑都加入进来，但此时C不可以推出
+    //空集，所以A只能推出b,c
+    @Test
+    public void testFirst3() {
         String s1 = "A->BC";
-        String s2 = "C->+BC";
-        String s22 = "C->$";
-        String s3 = "B->ED";
-        String s4 = "D->*ED";
-        String s44 = "D->$";
-        String s5 = "E->(A)|i";
+        String s2 = "B->b";
+        String s22 = "B->$";
+        String s3 = "C->c";
+//        String s33 = "C->$";
+        String[] s = {s1, s2, s22, s3};
+        ALanguage aLanguage = new ALanguage();
+        try {
+            aLanguage.createALanguage(s, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        GetFirst getFirst = new GetFirst();
+        List<First> firsts = getFirst.getFirsts(aLanguage);
+        for (First first : firsts) {
+            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
+                System.out.println(first.toString());
+        }
+        assertEquals(firsts.get(0).getArrayList(), new ArrayList<Character>(Arrays.asList('b', 'c')));
+    }
 
-        String[] s = {s1, s2, s22, s3, s4, s44, s5};
+    //此时A->BC，B和C都可以推空，所以相比上一个例子还可以推出空
+    @Test
+    public void testFirst4() {
+        String s1 = "A->BC";
+        String s2 = "B->b";
+        String s22 = "B->$";
+        String s3 = "C->c";
+        String s33 = "C->$";
+        String[] s = {s1, s2, s22, s3, s33};
+        ALanguage aLanguage = new ALanguage();
+        try {
+            aLanguage.createALanguage(s, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        GetFirst getFirst = new GetFirst();
+        List<First> firsts = getFirst.getFirsts(aLanguage);
+        for (First first : firsts) {
+            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
+                System.out.println(first.toString());
+        }
+        assertEquals(firsts.get(0).getArrayList(), new ArrayList<Character>(Arrays.asList('b', 'c', '$')));
+    }
+
+    @Test
+    public void testFirst5() {
+        String s1 = "A->AbC";
+        String s2 = "C->Cc";
+        String[] s = {s1, s2};
         ALanguage aLanguage = new ALanguage();
         try {
             aLanguage.createALanguage(s, true);
@@ -75,50 +120,34 @@ public class FirstTest {
             e.printStackTrace();
         }
         ALanguage.printLanguage(aLanguage);
-        //First集
         GetFirst getFirst = new GetFirst();
         List<First> firsts = getFirst.getFirsts(aLanguage);
-        System.out.println("*******************************************");
         for (First first : firsts) {
             if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
                 System.out.println(first.toString());
         }
-
-        System.out.println("*******************************************");
-
-        //Follow集
-        GetFollow getFollow = new GetFollow();
-        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);
-        for (Follow follow : follows) {
-            System.out.println(follow.toString());
-        }
-
-        FAT fat = new FAT(aLanguage);
-//        System.out.println(fat.predict("i*i+i"));
-        fat.printPredict();
-//        System.out.println(fat.tableToString());
-        System.out.println(fat.printPredict());
     }
 
     @Test
-    public void testFirst1() throws Exception {
-        String s1 = "A->a";
-        String s3 = "C->A|B";
-        String s2 = "B->cB";
-
+    public void testFirst6() {
+        String s1 = "A->aB";
+        String s2 = "A->aC";
+        String s3 = "B->b";
+        String s4 = "C->c";
+        String[] s = {s1, s2, s3, s4};
         ALanguage aLanguage = new ALanguage();
-        String[] s = {s2, s1, s3};
-        aLanguage.createALanguage(s);
-
-        //First集
+        try {
+            aLanguage.createALanguage(s, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ALanguage.printLanguage(aLanguage);
         GetFirst getFirst = new GetFirst();
         List<First> firsts = getFirst.getFirsts(aLanguage);
-        System.out.println("*******************************************");
         for (First first : firsts) {
             if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')
                 System.out.println(first.toString());
         }
-        ALanguage.printLanguage(aLanguage);
     }
-
 }
+

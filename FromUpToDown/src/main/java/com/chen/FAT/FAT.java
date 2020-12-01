@@ -217,7 +217,7 @@ public class FAT {
         return tableInfo.toString();
     }
 
-    //@Deprecated
+    @Deprecated
     public String tableToString() {
         List<Character> terminals = aLanguage.getTerminal();
         List<Character> nTerminals = aLanguage.getNotTerminal();

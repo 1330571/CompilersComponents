@@ -23,17 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08131188-91ac-4451-921d-42d1a51525a9" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/chen/Follow/FollowTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/chen/GeneralTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/Follow/GetFollow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/Follow/GetFollow.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +43,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -76,6 +75,8 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/chen" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -86,13 +87,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.chen.Follow" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\new\FromUpToDown\src\main\java\com\chen" />
       <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\FromUpToDown\src\main\java\com\chen\First" />
       <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\FromUpToDown\src\main\java\com\chen\production" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FirstTest.testPredict1">
+  <component name="RunManager" selected="JUnit.GeneralTest.testPredict1">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -104,7 +111,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FirstTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FirstTest.testFirst5" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FromUpToDown" />
       <extension name="coverage">
         <pattern>
@@ -114,44 +121,60 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.chen" />
       <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
+      <option name="METHOD_NAME" value="testFirst5" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FollowTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FromUpToDown" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chen.Follow.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chen.Follow" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.Follow.FollowTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FirstTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FollowTest.testFollow2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FromUpToDown" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.chen.*" />
+          <option name="PATTERN" value="com.chen.Follow.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.chen" />
-      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="PACKAGE_NAME" value="com.chen.Follow" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.Follow.FollowTest" />
+      <option name="METHOD_NAME" value="testFollow2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FirstTest.test2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FollowTest.testFollow3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FromUpToDown" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.chen.*" />
+          <option name="PATTERN" value="com.chen.Follow.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.chen" />
-      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
-      <option name="METHOD_NAME" value="test2" />
+      <option name="PACKAGE_NAME" value="com.chen.Follow" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.Follow.FollowTest" />
+      <option name="METHOD_NAME" value="testFollow3" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FirstTest.testFirst1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GeneralTest.testPredict1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FromUpToDown" />
       <extension name="coverage">
         <pattern>
@@ -160,23 +183,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.chen" />
-      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
-      <option name="METHOD_NAME" value="testFirst1" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FirstTest.testPredict1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="FromUpToDown" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.chen.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.chen" />
-      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.GeneralTest" />
       <option name="METHOD_NAME" value="testPredict1" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -185,11 +192,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FirstTest.testPredict1" />
-        <item itemvalue="JUnit.FirstTest" />
-        <item itemvalue="JUnit.FirstTest.test" />
-        <item itemvalue="JUnit.FirstTest.testFirst1" />
-        <item itemvalue="JUnit.FirstTest.test2" />
+        <item itemvalue="JUnit.GeneralTest.testPredict1" />
+        <item itemvalue="JUnit.FirstTest.testFirst5" />
+        <item itemvalue="JUnit.FollowTest.testFollow3" />
+        <item itemvalue="JUnit.FollowTest" />
+        <item itemvalue="JUnit.FollowTest.testFollow2" />
       </list>
     </recent_temporary>
   </component>
@@ -215,7 +222,7 @@
       <workItem from="1606746530931" duration="634000" />
       <workItem from="1606747971809" duration="29000" />
       <workItem from="1606784485317" duration="263000" />
-      <workItem from="1606784810742" duration="17845000" />
+      <workItem from="1606784810742" duration="30073000" />
     </task>
     <servers />
   </component>
@@ -278,44 +285,56 @@
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="827" height="466" key="DebuggerActiveHint/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792199142" />
-    <state width="1398" height="315" key="GridCell.Tab.0.bottom" timestamp="1606812623542">
+    <state x="100" y="125" width="1240" height="675" key="DiffContextDialog" timestamp="1606816405494">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="100" y="125" width="1240" height="675" key="DiffContextDialog/0.25.1440.875@0.25.1440.875" timestamp="1606816405494" />
+    <state width="1398" height="185" key="GridCell.Tab.0.bottom" timestamp="1606829732942">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.bottom/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
     <state width="1398" height="300" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
-    <state width="1398" height="315" key="GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
-    <state width="1398" height="315" key="GridCell.Tab.0.center" timestamp="1606812623542">
+    <state width="1398" height="185" key="GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875" timestamp="1606829732942" />
+    <state width="1398" height="185" key="GridCell.Tab.0.center" timestamp="1606829732941">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.center/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
     <state width="1398" height="300" key="GridCell.Tab.0.center/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914420" />
-    <state width="1398" height="315" key="GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
-    <state width="1398" height="315" key="GridCell.Tab.0.left" timestamp="1606812623541">
+    <state width="1398" height="185" key="GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875" timestamp="1606829732941" />
+    <state width="1398" height="185" key="GridCell.Tab.0.left" timestamp="1606829732940">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.left/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
     <state width="1398" height="300" key="GridCell.Tab.0.left/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914419" />
-    <state width="1398" height="315" key="GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875" timestamp="1606812623541" />
-    <state width="1398" height="315" key="GridCell.Tab.0.right" timestamp="1606812623542">
+    <state width="1398" height="185" key="GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875" timestamp="1606829732940" />
+    <state width="1398" height="185" key="GridCell.Tab.0.right" timestamp="1606829732941">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.right/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
     <state width="1398" height="300" key="GridCell.Tab.0.right/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
-    <state width="1398" height="315" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+    <state width="1398" height="185" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1606829732941" />
     <state x="227" y="40" key="SettingsEditor" timestamp="1606807876164">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="228" y="15" key="SettingsEditor/0.0.1449.864@0.0.1449.864" timestamp="1605700695791" />
     <state x="227" y="40" key="SettingsEditor/0.25.1440.875@0.25.1440.875" timestamp="1606807876164" />
-    <state x="422" y="225" width="595" height="474" key="find.popup" timestamp="1606808223102">
+    <state x="521" y="382" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606816374986">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
-    <state x="422" y="225" width="595" height="474" key="find.popup/0.25.1440.875@0.25.1440.875" timestamp="1606808223102" />
-    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup" timestamp="1606808208967">
+    <state x="521" y="382" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1440.875@0.25.1440.875" timestamp="1606816374986" />
+    <state x="499" y="219" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1606824224970">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="499" y="219" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.25.1440.875@0.25.1440.875" timestamp="1606824224970" />
+    <state x="422" y="225" width="595" height="474" key="find.popup" timestamp="1606829495378">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="422" y="225" width="595" height="474" key="find.popup/0.25.1440.875@0.25.1440.875" timestamp="1606829495378" />
+    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup" timestamp="1606828761946">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="388" y="182" width="672" height="678" key="search.everywhere.popup/0.0.1449.864@0.0.1449.864" timestamp="1605871895165" />
-    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup/0.25.1440.875@0.25.1440.875" timestamp="1606808208967" />
+    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup/0.25.1440.875@0.25.1440.875" timestamp="1606828761946" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

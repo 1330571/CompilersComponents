@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Update_at_2020_12_1,_17_52_[默认更改列表]" date="1606816352816" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2020_12_1,_17_52_[默认更改列表]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2020/12/1, 17:52 [默认更改列表]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/chen/production/ALanguage.class" />
+    <option name="AFTER_PATH" value="target/classes/com/chen/production/ALanguage.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2020_12_1,_17_52_[默认更改列表]/ALanguage.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/test-classes/com/chen/FirstTest.class" />
+    <option name="AFTER_PATH" value="target/test-classes/com/chen/FirstTest.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2020_12_1,_17_52_[默认更改列表]/FirstTest.class" />
+  </binary>
+</changelist>

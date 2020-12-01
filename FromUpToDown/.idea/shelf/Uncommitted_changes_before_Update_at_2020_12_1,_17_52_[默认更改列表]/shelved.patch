@@ -1,0 +1,221 @@
+Index: src/main/java/com/chen/production/ALanguage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.chen.production;\n\nimport java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\npublic class ALanguage {\n    private ArrayList<Character> NotTerminal;  //所有的非终结符\n    private ArrayList<Character> Terminal; //所有的终结符\n    private List<Language> list;   //终结符和非终结符的文法\n    private List<Language> list1;/////替换后的文法\n    private List<Language> list2;//////A->c替换后如A->cZ\n    private List<Character> list3;///有左递归的非终结符\n    private List<Language> list4;////保存原有文法\n\n    public ALanguage() {\n        NotTerminal = new ArrayList<Character>();\n        Terminal = new ArrayList<Character>();\n        list = new ArrayList<Language>();\n        list1 = new ArrayList<Language>();\n        list2 = new ArrayList<Language>();\n        list3 = new ArrayList<Character>();\n        list4 = new ArrayList<Language>();\n\n    }\n\n    public void createALanguage(String s[]) throws Exception {\n        createALanguage(s, false);\n    }\n\n    /**\n     * @param s 将用户输入的String类型文法进行转化\n     */\n    public void createALanguage(String s[], boolean eliminateLeftRecursions) throws Exception {\n        //将String类型的输入转化为文法\n        for (String value : s) {\n            Language language = new Language();\n            language.S2L(value);  //将String类型的文法进行转化\n            System.out.println(\"**\" + language);\n            list.add(language);\n            System.out.println(\"%%\" + list);\n            //找到文法中所有的非终结符\n            if (!NotTerminal.contains(language.getNTerminal())) {\n                NotTerminal.add(language.getNTerminal());\n            }\n            //找寻文法中的所有终结符\n            for (int i1 = 0; i1 < language.getMatch().length; i1++) {\n                char c = language.getMatch()[i1];\n                if ((c < 'A' || c > 'Z') && !Terminal.contains(c)) {\n                    if (c == '$') {\n                        continue;\n                    }\n                    //扫描文法中的每一个match 如果Terminal中不存在就加入Terminal中\n                    Terminal.add(language.getMatch()[i1]);\n                }\n            }\n        }\n        if (eliminateLeftRecursions)\n            getLeftRecursionToList();\n    }\n\n\n    private static String arrayToString(char[] chars) {\n        StringBuilder stringBuilder = new StringBuilder();\n        for (char ch : chars)\n            stringBuilder.append(ch);\n        return stringBuilder.toString();\n    }\n\n    /**\n     * 用规整的方式输出文法\n     *\n     * @param aLanguage 要输出的语言\n     */\n    public static void printLanguage(ALanguage aLanguage) {\n        Map<Character, ArrayList<String>> map = new HashMap<>();\n        for (Language language : aLanguage.getList()) {\n            if (!map.containsKey(language.getNTerminal())) {\n                ArrayList<String> arr = new ArrayList<>();\n                arr.add(arrayToString(language.getMatch()));\n                map.put(language.getNTerminal(), arr);\n            } else {\n                ArrayList<String> arr = map.get(language.getNTerminal());\n                arr.add(arrayToString(language.getMatch()));\n                map.put(language.getNTerminal(), arr);\n            }\n        }\n        for (Map.Entry<Character, ArrayList<String>> value : map.entrySet()) {\n            System.out.print(value.getKey());\n            System.out.print(\" -> \");\n            boolean first = true;\n            for (String string : value.getValue()) {\n                if (!first) System.out.print(\" | \");\n                first = false;\n                System.out.print(string);\n            }\n            System.out.println();\n        }\n    }\n\n    public List<Language> getList() {\n        return list;\n    }\n\n    public ArrayList<Character> getNotTerminal() {\n        return NotTerminal;\n    }\n\n    public ArrayList<Character> getTerminal() {\n        return Terminal;\n    }\n\n    /**\n     * 从所有文法中，找出所有非终结符nt的文法\n     *\n     * @param nt 非终结符\n     */\n    public List<Language> getLanguage(Character nt) {\n        List<Language> ntLanguage = new ArrayList<>();\n        Language language = null;\n        for (Language value : list) {\n            language = value;\n            if (language.getNTerminal() == nt) {\n                ntLanguage.add(language);\n            }\n        }\n        return ntLanguage;\n    }\n\n    private void exchangMatch(char[] m, char nt) {\n        for (int i = 0; i < m.length; i++) {\n            if (i == m.length - 1) {\n                m[i] = nt;\n                break;\n            }\n            m[i] = m[i + 1];\n        }\n    }\n\n    /*\n        private List<Language> list;   //终结符和非终结符的文法\n        private List<Language> list1;/////替换后的文法\n        private List<Language> list2;//////A->c替换后如A->cZ\n        private List<Character> list3;///有左递归的非终结符\n        private List<Language> list4;////保存原有文法\n    * */\n    private void getLeftRecursionToList()////消除左递归\n    {\n        char[] exnt = {' ', 'Z', 'Y', 'X', 'W', 'V', 'U', 'T', 'S', 'R', 'Q', 'P', 'O', 'N'};///替换符号\n        int n = 0;\n        Language language1 = null;\n        for (int i = 0; i < list.size(); i++) {\n            if (list.get(i).getNTerminal() == list.get(i).getMatch1(0)) {\n                if (list3.size() == 0 || (list3.get(n - 1) != list.get(i).getNTerminal())) {\n                    list3.add(list.get(i).getNTerminal());\n                    n++;\n                }\n                language1 = list.get(i);\n                language1.setNT(exnt[n]);\n                NotTerminal.add(language1.getNTerminal());\n                exchangMatch(language1.getMatch(), language1.getNTerminal());\n                list1.add(language1);\n                // System.out.println(\"list1###\"+list1);\n            } else {\n                if (list3.size() == 0) {\n                    language1 = list.get(i);\n                    list4.add(language1);\n                } else {\n                    if (list.get(i).getNTerminal() == list3.get(list3.size() - 1)) {\n                        language1 = list.get(i);\n                        char[] match1 = new char[language1.getlength() + 1];\n                        for (int k = 0; k <= language1.getlength(); k++) {\n                            if (k == language1.getlength()) {\n                                match1[k] = list1.get(list1.size() - 1).getNTerminal();\n                                break;\n                            }\n                            match1[k] = language1.getMatch1(k);\n                        }\n                        language1.setMatch1(match1);\n                        list2.add(language1);\n                        System.out.println(\"list1#\" + list1);\n                    } else {\n                        //System.out.println(\"list.get(i).getNTerminal()\"+list.get(i).getNTerminal());\n                        if (list2.size() == 0 || list2.get(list2.size() - 1).getNTerminal() != list3.get(list3.size() - 1)) {\n                            Language language2 = new Language();\n                            System.out.println(\"language2\" + language2);\n                            char[] match2 = new char[1];\n                            match2[0] = list1.get(list1.size() - 1).getNTerminal();\n                            list2.add(language2);\n                            list2.get(list2.size() - 1).setMatch1(match2);\n                            list2.get(list2.size() - 1).setNT(list3.get(list3.size() - 1));\n                        }\n                        language1 = list.get(i);\n                        list4.add(language1);\n                    }\n                }\n            }\n        }\n        list.removeAll(list);\n        list.addAll(0, list2);\n        list.addAll(list2.size(), list1);\n        list.addAll(list2.size() + list1.size(), list4);\n        System.out.println(\"***list\" + list);\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/chen/production/ALanguage.java	(revision af5051b0048c3bfc353e58cd12bd8e969284f35c)
++++ src/main/java/com/chen/production/ALanguage.java	(date 1606814797594)
+@@ -56,8 +56,9 @@
+                 }
+             }
+         }
++        EliminateBack(); //消除回溯
+         if (eliminateLeftRecursions)
+-            getLeftRecursionToList();
++            getLeftRecursionToList(); //消除左递归
+     }
+ 
+ 
+@@ -205,4 +206,94 @@
+     }
+ 
+ 
++    int[] fa = new int[10];
++
++    //初始化
++    private void init(int n) {
++        for (int i = 0; i < n; i++) {
++            fa[i] = i;
++        }
++    }
++
++    //找祖宗
++    private int find(int x) {
++        if (fa[x] == x) {
++            return x;
++        } else {
++            return find(fa[x]);
++        }
++    }
++
++    private void merge(int i, int j) {
++        fa[find(i)] = find(j);
++    }
++
++    //消除回溯
++    public void EliminateBack() {
++        char[] set = {'N', 'O', 'P', 'Q', 'R', 'S'};
++        int k = 0;
++        for (Language language : list) {
++            List<Language> temp = new ArrayList<Language>();
++            for (Language value : list) {
++                if (value.getNTerminal() == language.getNTerminal()) {
++                    temp.add(value);
++                }
++            }
++            System.out.println("======" + temp.size());
++            if (temp.size() <= 1) {
++                continue;
++            }
++            init(temp.size());
++            for (int i = 0; i < temp.size(); i++) {
++                for (int j = i + 1; j < temp.size(); j++) {
++                    if (temp.get(i).getMatch1(0) == temp.get(j).getMatch1(0)) {
++                        System.out.println(i + "(((((((((((" + j);
++                        merge(i, j);
++                    }
++                }
++            }
++            for (int i : fa) {
++                System.out.println(fa[i]);
++            }
++            for (int i = 0; i < temp.size(); i++) {
++                if (fa[i] != i) {
++                    //A->aZ
++                    list.remove(temp.get(i));
++                    boolean remove = list.remove(temp.get(fa[i]));
++                    Language lan = new Language();
++                    lan.setNT(temp.get(fa[i]).getNTerminal());
++                    char[] t = new char[2];
++                    t[0] = temp.get(fa[i]).getMatch1(0);
++                    t[1] = set[k++];
++                    lan.setMatch1(t);
++                    list.add(lan);
++                    //Z->剩下的
++                    Language lan2 = new Language();
++                    lan2.setNT(set[k - 1]);
++                    int le = 0;
++                    char[] now = new char[temp.get(i).getMatch().length];
++                    for (int j = 1; j < temp.get(i).getMatch().length; j++) {
++                        now[le++] = temp.get(i).getMatch1(j);
++                    }
++                    now[le] = 0;
++                    lan2.setMatch1(now);
++                    list.add(lan2);
++                    if (remove) {
++                        Language lan3 = new Language();
++                        lan3.setNT(set[k - 1]);
++                        int la = 0;
++                        char[] s = new char[temp.get(fa[i]).getMatch().length];
++                        for (int j = 1; j < temp.get(fa[i]).getMatch().length; j++) {
++                            s[la++] = temp.get(fa[i]).getMatch1(j);
++                        }
++                        s[la] = 0;
++                        lan3.setMatch1(s);
++                        list.add(lan3);
++                    }
++                }
++            }
++        }
++    }
++
++
+ }
+Index: src/test/java/com/chen/FirstTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.chen;\n\nimport com.chen.FAT.FAT;\nimport com.chen.First.First;\nimport com.chen.First.GetFirst;\nimport com.chen.Follow.Follow;\nimport com.chen.Follow.GetFollow;\nimport com.chen.production.ALanguage;\nimport org.junit.jupiter.api.Test;\n\nimport java.util.List;\n\npublic class FirstTest {\n\n    //测试样例是书上的例子\n    @Test\n    public void test() {\n        String s1 = \"A->ABC\";\n        String s2 = \"A->c\";\n        String s3 = \"C->+BC\";\n        String s4 = \"C->$\";\n        String s5 = \"B->DE\";\n        String s6 = \"E->E*DE\";\n        String s7 = \"E->$\";\n        String s8 = \"D->(A)\";\n        String s9 = \"D->i\";\n        String[] s = {s1, s2, s3, s4, s5, s6, s7, s8, s9};\n        ALanguage aLanguage = new ALanguage();\n        try {\n            aLanguage.createALanguage(s, true);\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n        ALanguage.printLanguage(aLanguage);\n        //First集\n        GetFirst getFirst = new GetFirst();\n        List<First> firsts = getFirst.getFirsts(aLanguage);\n        System.out.println(\"*******************************************\");\n        for (First first : firsts) {\n            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')\n                System.out.println(first.toString());\n        }\n\n        System.out.println(\"*******************************************\");\n\n        //Follow集\n        GetFollow getFollow = new GetFollow();\n        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);\n        for (Follow follow : follows) {\n            System.out.println(follow.toString());\n        }\n\n        FAT fat = new FAT(aLanguage);\n//        System.out.println(fat.predict(\"i*i+i\"));\n        fat.printPredict();\n        System.out.println(fat.tableToString());\n        System.out.println(fat.printPredict());\n    }\n\n    @Test\n    public void testPredict1() throws Exception {\n        String s1 = \"A->BC\";\n        String s2 = \"C->+BC\";\n        String s22 = \"C->$\";\n        String s3 = \"B->ED\";\n        String s4 = \"D->*ED\";\n        String s44 = \"D->$\";\n        String s5 = \"E->(A)|i\";\n\n        String[] s = {s1, s2, s22, s3, s4, s44, s5};\n        ALanguage aLanguage = new ALanguage();\n        try {\n            aLanguage.createALanguage(s, true);\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n        ALanguage.printLanguage(aLanguage);\n        //First集\n        GetFirst getFirst = new GetFirst();\n        List<First> firsts = getFirst.getFirsts(aLanguage);\n        System.out.println(\"*******************************************\");\n        for (First first : firsts) {\n            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')\n                System.out.println(first.toString());\n        }\n\n        System.out.println(\"*******************************************\");\n\n        //Follow集\n        GetFollow getFollow = new GetFollow();\n        List<Follow> follows = getFollow.getFollows(aLanguage, firsts);\n        for (Follow follow : follows) {\n            System.out.println(follow.toString());\n        }\n\n        FAT fat = new FAT(aLanguage);\n//        System.out.println(fat.predict(\"i*i+i\"));\n        fat.printPredict();\n//        System.out.println(fat.tableToString());\n        System.out.println(fat.printPredict());\n    }\n\n    @Test\n    public void testFirst1() throws Exception {\n        String s1 = \"A->a\";\n        String s3 = \"C->A|B\";\n        String s2 = \"B->cB\";\n\n        ALanguage aLanguage = new ALanguage();\n        String[] s = {s2, s1, s3};\n        aLanguage.createALanguage(s);\n\n        //First集\n        GetFirst getFirst = new GetFirst();\n        List<First> firsts = getFirst.getFirsts(aLanguage);\n        System.out.println(\"*******************************************\");\n        for (First first : firsts) {\n            if (first.getSymbol() >= 'A' && first.getSymbol() <= 'Z')\n                System.out.println(first.toString());\n        }\n        ALanguage.printLanguage(aLanguage);\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/com/chen/FirstTest.java	(revision af5051b0048c3bfc353e58cd12bd8e969284f35c)
++++ src/test/java/com/chen/FirstTest.java	(date 1606816288325)
+@@ -65,9 +65,10 @@
+         String s3 = "B->ED";
+         String s4 = "D->*ED";
+         String s44 = "D->$";
+-        String s5 = "E->(A)|i";
++        String s5 = "E->(A)";
++        String s55 = "E->i";
+ 
+-        String[] s = {s1, s2, s22, s3, s4, s44, s5};
++        String[] s = {s1, s2, s22, s3, s4, s44, s5, s55};
+         ALanguage aLanguage = new ALanguage();
+         try {
+             aLanguage.createALanguage(s, true);
+@@ -75,6 +76,7 @@
+             e.printStackTrace();
+         }
+         ALanguage.printLanguage(aLanguage);
++
+         //First集
+         GetFirst getFirst = new GetFirst();
+         List<First> firsts = getFirst.getFirsts(aLanguage);
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"ALL\" />\n  </component>\n  <component name=\"BranchesTreeState\">\n    <expand>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </expand>\n    <select />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"08131188-91ac-4451-921d-42d1a51525a9\" name=\"默认更改列表\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/qaplug_profiles.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/jarRepositories.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/jarRepositories.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/First/First.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/First/First.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/com/chen/production/Language.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/com/chen/production/Language.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\n  </component>\n  <component name=\"GitToolBoxStore\">\n    <option name=\"projectConfigVersion\" value=\"2\" />\n  </component>\n  <component name=\"KotlinMultiplatform\">\n    <allAvailableExecutables />\n  </component>\n  <component name=\"MacroExpansionManager\">\n    <option name=\"directoryName\" value=\"v77utehf\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHome\" value=\"$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectId\" id=\"1kSgzpS6zlpzejjFoF3E50QxGld\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"aspect.path.notification.shown\" value=\"true\" />\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/src/main/java/com/chen\" />\n    <property name=\"project.structure.last.edited\" value=\"Artifacts\" />\n    <property name=\"project.structure.proportion\" value=\"0.15332031\" />\n    <property name=\"project.structure.side.proportion\" value=\"0.2\" />\n    <property name=\"restartRequiresConfirmation\" value=\"false\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.keymap\" />\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"C:\\Users\\香梨\\OneDrive\\桌面\\编译原理\\课程设计\\new\\FromUpToDown\\src\\main\\java\\com\\chen\" />\n      <recent name=\"C:\\Users\\香梨\\OneDrive\\桌面\\编译原理\\课程设计\\FromUpToDown\\src\\main\\java\\com\\chen\\First\" />\n      <recent name=\"C:\\Users\\香梨\\OneDrive\\桌面\\编译原理\\课程设计\\FromUpToDown\\src\\main\\java\\com\\chen\\production\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"JUnit.FirstTest.testPredict1\">\n    <configuration default=\"true\" type=\"ArquillianJUnit\" factoryName=\"\" nameIsGenerated=\"true\">\n      <option name=\"arquillianRunConfiguration\">\n        <value>\n          <option name=\"containerStateName\" value=\"\" />\n        </value>\n      </option>\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"FirstTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"FromUpToDown\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.chen.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"com.chen\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.chen.FirstTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"FirstTest.test\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"FromUpToDown\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.chen.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"com.chen\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.chen.FirstTest\" />\n      <option name=\"METHOD_NAME\" value=\"test\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"FirstTest.test2\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"FromUpToDown\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.chen.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"com.chen\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.chen.FirstTest\" />\n      <option name=\"METHOD_NAME\" value=\"test2\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"FirstTest.testFirst1\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"FromUpToDown\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.chen.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"com.chen\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.chen.FirstTest\" />\n      <option name=\"METHOD_NAME\" value=\"testFirst1\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"FirstTest.testPredict1\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"FromUpToDown\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.chen.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"com.chen\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.chen.FirstTest\" />\n      <option name=\"METHOD_NAME\" value=\"testPredict1\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"JUnit.FirstTest.testPredict1\" />\n        <item itemvalue=\"JUnit.FirstTest\" />\n        <item itemvalue=\"JUnit.FirstTest.test\" />\n        <item itemvalue=\"JUnit.FirstTest.testFirst1\" />\n        <item itemvalue=\"JUnit.FirstTest.test2\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"08131188-91ac-4451-921d-42d1a51525a9\" name=\"默认更改列表\" comment=\"\" />\n      <created>1605699671694</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1605699671694</updated>\n      <workItem from=\"1605699675033\" duration=\"3621000\" />\n      <workItem from=\"1605713779614\" duration=\"4074000\" />\n      <workItem from=\"1605792040658\" duration=\"1021000\" />\n      <workItem from=\"1605853075787\" duration=\"608000\" />\n      <workItem from=\"1605861470447\" duration=\"11056000\" />\n      <workItem from=\"1606654980616\" duration=\"26000\" />\n      <workItem from=\"1606655020392\" duration=\"2399000\" />\n      <workItem from=\"1606742154215\" duration=\"232000\" />\n      <workItem from=\"1606746530931\" duration=\"634000\" />\n      <workItem from=\"1606747971809\" duration=\"29000\" />\n      <workItem from=\"1606784485317\" duration=\"263000\" />\n      <workItem from=\"1606784810742\" duration=\"17845000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.History.Properties\">\n    <option name=\"COLUMN_ORDER\">\n      <list>\n        <option value=\"0\" />\n        <option value=\"2\" />\n        <option value=\"3\" />\n        <option value=\"1\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n  <component name=\"WindowStateProjectService\">\n    <state x=\"447\" y=\"292\" key=\"#Notifications\" timestamp=\"1606798511863\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"447\" y=\"292\" key=\"#Notifications/0.25.1440.875@0.25.1440.875\" timestamp=\"1606798511863\" />\n    <state x=\"208\" y=\"42\" key=\"#Project_Structure\" timestamp=\"1606746728059\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"208\" y=\"42\" key=\"#Project_Structure/0.25.1440.875@0.25.1440.875\" timestamp=\"1606746728059\" />\n    <state x=\"529\" y=\"176\" key=\"#com.intellij.ide.util.MemberChooser\" timestamp=\"1606808391346\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"532\" y=\"149\" key=\"#com.intellij.ide.util.MemberChooser/0.0.1449.864@0.0.1449.864\" timestamp=\"1605865472172\" />\n    <state x=\"529\" y=\"176\" key=\"#com.intellij.ide.util.MemberChooser/0.25.1440.875@0.25.1440.875\" timestamp=\"1606808391346\" />\n    <state x=\"384\" y=\"132\" key=\"#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog\" timestamp=\"1606807682840\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"384\" y=\"132\" key=\"#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.25.1440.875@0.25.1440.875\" timestamp=\"1606807682840\" />\n    <state x=\"408\" y=\"204\" key=\"#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog\" timestamp=\"1606784622361\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"408\" y=\"204\" key=\"#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.25.1440.875@0.25.1440.875\" timestamp=\"1606784622361\" />\n    <state x=\"155\" y=\"0\" key=\"#com.intellij.refactoring.rename.AutomaticRenamingDialog\" timestamp=\"1605701484409\">\n      <screen x=\"0\" y=\"0\" width=\"1449\" height=\"864\" />\n    </state>\n    <state x=\"155\" y=\"0\" key=\"#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1449.864@0.0.1449.864\" timestamp=\"1605701484409\" />\n    <state x=\"319\" y=\"92\" key=\"#项目结构\" timestamp=\"1605701528207\">\n      <screen x=\"0\" y=\"0\" width=\"1449\" height=\"864\" />\n    </state>\n    <state x=\"319\" y=\"92\" key=\"#项目结构/0.0.1449.864@0.0.1449.864\" timestamp=\"1605701528207\" />\n    <state width=\"827\" height=\"466\" key=\"DebuggerActiveHint\" timestamp=\"1606792199142\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state width=\"827\" height=\"466\" key=\"DebuggerActiveHint/0.25.1440.875/1440.-99.1366.999@0.25.1440.875\" timestamp=\"1606792199142\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1606812623542\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state width=\"1406\" height=\"413\" key=\"GridCell.Tab.0.bottom/0.0.1449.864@0.0.1449.864\" timestamp=\"1606742361577\" />\n    <state width=\"1398\" height=\"300\" key=\"GridCell.Tab.0.bottom/0.25.1440.875/1440.-99.1366.999@0.25.1440.875\" timestamp=\"1606792914421\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875\" timestamp=\"1606812623542\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.center\" timestamp=\"1606812623542\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state width=\"1406\" height=\"413\" key=\"GridCell.Tab.0.center/0.0.1449.864@0.0.1449.864\" timestamp=\"1606742361577\" />\n    <state width=\"1398\" height=\"300\" key=\"GridCell.Tab.0.center/0.25.1440.875/1440.-99.1366.999@0.25.1440.875\" timestamp=\"1606792914420\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875\" timestamp=\"1606812623542\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.left\" timestamp=\"1606812623541\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state width=\"1406\" height=\"413\" key=\"GridCell.Tab.0.left/0.0.1449.864@0.0.1449.864\" timestamp=\"1606742361577\" />\n    <state width=\"1398\" height=\"300\" key=\"GridCell.Tab.0.left/0.25.1440.875/1440.-99.1366.999@0.25.1440.875\" timestamp=\"1606792914419\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875\" timestamp=\"1606812623541\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.right\" timestamp=\"1606812623542\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state width=\"1406\" height=\"413\" key=\"GridCell.Tab.0.right/0.0.1449.864@0.0.1449.864\" timestamp=\"1606742361577\" />\n    <state width=\"1398\" height=\"300\" key=\"GridCell.Tab.0.right/0.25.1440.875/1440.-99.1366.999@0.25.1440.875\" timestamp=\"1606792914421\" />\n    <state width=\"1398\" height=\"315\" key=\"GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875\" timestamp=\"1606812623542\" />\n    <state x=\"227\" y=\"40\" key=\"SettingsEditor\" timestamp=\"1606807876164\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"228\" y=\"15\" key=\"SettingsEditor/0.0.1449.864@0.0.1449.864\" timestamp=\"1605700695791\" />\n    <state x=\"227\" y=\"40\" key=\"SettingsEditor/0.25.1440.875@0.25.1440.875\" timestamp=\"1606807876164\" />\n    <state x=\"422\" y=\"225\" width=\"595\" height=\"474\" key=\"find.popup\" timestamp=\"1606808223102\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"422\" y=\"225\" width=\"595\" height=\"474\" key=\"find.popup/0.25.1440.875@0.25.1440.875\" timestamp=\"1606808223102\" />\n    <state x=\"386\" y=\"209\" width=\"670\" height=\"687\" key=\"search.everywhere.popup\" timestamp=\"1606808208967\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"875\" />\n    </state>\n    <state x=\"388\" y=\"182\" width=\"672\" height=\"678\" key=\"search.everywhere.popup/0.0.1449.864@0.0.1449.864\" timestamp=\"1605871895165\" />\n    <state x=\"386\" y=\"209\" width=\"670\" height=\"687\" key=\"search.everywhere.popup/0.25.1440.875@0.25.1440.875\" timestamp=\"1606808208967\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <watches-manager>\n      <configuration name=\"JUnit\">\n        <watch expression=\"list.get(1).NTerminal\" />\n      </configuration>\n    </watches-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision af5051b0048c3bfc353e58cd12bd8e969284f35c)
++++ .idea/workspace.xml	(date 1606816288450)
+@@ -23,17 +23,10 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="08131188-91ac-4451-921d-42d1a51525a9" name="默认更改列表" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -215,7 +208,7 @@
+       <workItem from="1606746530931" duration="634000" />
+       <workItem from="1606747971809" duration="29000" />
+       <workItem from="1606784485317" duration="263000" />
+-      <workItem from="1606784810742" duration="17845000" />
++      <workItem from="1606784810742" duration="20257000" />
+     </task>
+     <servers />
+   </component>
+@@ -278,30 +271,30 @@
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state width="827" height="466" key="DebuggerActiveHint/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792199142" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.bottom" timestamp="1606812623542">
++    <state width="1398" height="438" key="GridCell.Tab.0.bottom" timestamp="1606816112966">
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state width="1406" height="413" key="GridCell.Tab.0.bottom/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
+     <state width="1398" height="300" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.center" timestamp="1606812623542">
++    <state width="1398" height="438" key="GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875" timestamp="1606816112966" />
++    <state width="1398" height="438" key="GridCell.Tab.0.center" timestamp="1606816112965">
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state width="1406" height="413" key="GridCell.Tab.0.center/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
+     <state width="1398" height="300" key="GridCell.Tab.0.center/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914420" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.left" timestamp="1606812623541">
++    <state width="1398" height="438" key="GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875" timestamp="1606816112965" />
++    <state width="1398" height="438" key="GridCell.Tab.0.left" timestamp="1606816112965">
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state width="1406" height="413" key="GridCell.Tab.0.left/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
+     <state width="1398" height="300" key="GridCell.Tab.0.left/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914419" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875" timestamp="1606812623541" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.right" timestamp="1606812623542">
++    <state width="1398" height="438" key="GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875" timestamp="1606816112965" />
++    <state width="1398" height="438" key="GridCell.Tab.0.right" timestamp="1606816112965">
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state width="1406" height="413" key="GridCell.Tab.0.right/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
+     <state width="1398" height="300" key="GridCell.Tab.0.right/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
+-    <state width="1398" height="315" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
++    <state width="1398" height="438" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1606816112965" />
+     <state x="227" y="40" key="SettingsEditor" timestamp="1606807876164">
+       <screen x="0" y="25" width="1440" height="875" />
+     </state>

@@ -32,7 +32,7 @@ public class ALanguage {
         } else {
             String[] t = s.split("\\|");
             strs.add(t[0]);
-            String newStr = t[0].substring(0,3);
+            String newStr = t[0].substring(0, 3);
             newStr += t[1];
             strs.add(newStr);
         }
@@ -56,9 +56,9 @@ public class ALanguage {
         for (String value : strs) {
             Language language = new Language();
             language.S2L(value);  //将String类型的文法进行转化
-            System.out.println("**" + language);
+//            System.out.println("**" + language);
             list.add(language);
-            System.out.println("%%" + list);
+//            System.out.println("%%" + list);
             //找到文法中所有的非终结符
             if (!NotTerminal.contains(language.getNTerminal())) {
                 NotTerminal.add(language.getNTerminal());
@@ -75,8 +75,9 @@ public class ALanguage {
                 }
             }
         }
+        EliminateBack(); //消除回溯
         if (eliminateLeftRecursions)
-            getLeftRecursionToList();
+            getLeftRecursionToList(); //消除左递归
     }
 
 
@@ -164,63 +165,182 @@ public class ALanguage {
         private List<Character> list3;///有左递归的非终结符
         private List<Language> list4;////保存原有文法
     * */
-    private void getLeftRecursionToList()////消除左递归
+  private void getLeftRecursionToList()////消除左递归
     {
-        char[] exnt = {' ', 'Z', 'Y', 'X', 'W', 'V', 'U', 'T', 'S', 'R', 'Q', 'P', 'O', 'N'};///替换符号
-        int n = 0;
+        char[]exnt={' ','Z','Y','X','W','V','U','T','S','R','Q','P','O','N'};///替换符号
+        int n=0;
         Language language1 = null;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNTerminal() == list.get(i).getMatch1(0)) {
-                if (list3.size() == 0 || (list3.get(n - 1) != list.get(i).getNTerminal())) {
+        for(int i=0;i<list.size();i++)
+        {
+            if(list.get(i).getNTerminal()==list.get(i).getMatch1(0))
+            {
+                if(list3.size()==0||(list3.get(n-1)!=list.get(i).getNTerminal())) {
                     list3.add(list.get(i).getNTerminal());
                     n++;
+                    NotTerminal.add(exnt[n]);
                 }
-                language1 = list.get(i);
+                language1=list.get(i);
                 language1.setNT(exnt[n]);
-                NotTerminal.add(language1.getNTerminal());
-                exchangMatch(language1.getMatch(), language1.getNTerminal());
+                exchangMatch(language1.getMatch(),language1.getNTerminal());
                 list1.add(language1);
-                // System.out.println("list1###"+list1);
-            } else {
-                if (list3.size() == 0) {
-                    language1 = list.get(i);
+
+            }
+            else
+            {
+                if(list3.size()==0){
+                    language1=list.get(i);
                     list4.add(language1);
-                } else {
-                    if (list.get(i).getNTerminal() == list3.get(list3.size() - 1)) {
-                        language1 = list.get(i);
-                        char[] match1 = new char[language1.getlength() + 1];
-                        for (int k = 0; k <= language1.getlength(); k++) {
-                            if (k == language1.getlength()) {
-                                match1[k] = list1.get(list1.size() - 1).getNTerminal();
+                }
+                else
+                {
+                    if(list.get(i).getNTerminal()==list3.get(list3.size()-1))
+                    {
+                        language1=list.get(i);
+                        char []match1 = new char[language1.getlength()+1];
+                        for(int k=0;k<=language1.getlength();k++)
+                        {
+                            if(k==language1.getlength())
+                            {
+                                match1[k]=list1.get(list1.size()-1).getNTerminal();
                                 break;
                             }
-                            match1[k] = language1.getMatch1(k);
+                            match1[k]= language1.getMatch1(k);
+
                         }
-                        language1.setMatch1(match1);
+                        //System.out.println("match1"+ match1);
                         list2.add(language1);
-                        System.out.println("list1#" + list1);
-                    } else {
-                        //System.out.println("list.get(i).getNTerminal()"+list.get(i).getNTerminal());
-                        if (list2.size() == 0 || list2.get(list2.size() - 1).getNTerminal() != list3.get(list3.size() - 1)) {
-                            Language language2 = new Language();
-                            System.out.println("language2" + language2);
-                            char[] match2 = new char[1];
-                            match2[0] = list1.get(list1.size() - 1).getNTerminal();
-                            list2.add(language2);
-                            list2.get(list2.size() - 1).setMatch1(match2);
-                            list2.get(list2.size() - 1).setNT(list3.get(list3.size() - 1));
-                        }
-                        language1 = list.get(i);
+                        list2.get(list2.size()-1).setMatch1(match1);
+                    }
+                    else{
+                        language1=list.get(i);
                         list4.add(language1);
+
                     }
                 }
             }
         }
+        System.out.println("list3.size"+list3.size());
+        int size=list2.size();
+        for(int p=0;p<list3.size();p++)
+        {
+            for(int q=0;q<size;q++)
+            {
+                if(list3.get(p)==list2.get(q).getNTerminal())
+                {
+                   list3.remove(p);
+                   list3.add(p,'#');
+                }
+            }
+            if(list3.get(p)!='#')
+            {
+                Language language2= new Language();
+                char[] match3 = new char[1];
+                match3[0] =exnt[p+1];
+                list2.add(language2);
+                list2.get(list2.size() - 1).setMatch1(match3);
+                list2.get(list2.size()-1).setNT(list3.get(p));
+            }
+        }
+
+//        System.out.println("list1"+list1);
+//        System.out.println("list2"+list2);
+//        System.out.println("list4"+list4);
+        System.out.println("NotTerminal"+NotTerminal);
         list.removeAll(list);
-        list.addAll(0, list2);
-        list.addAll(list2.size(), list1);
-        list.addAll(list2.size() + list1.size(), list4);
-        System.out.println("***list" + list);
+        list.addAll(0,list2);
+        list.addAll(list2.size(),list1);
+        list.addAll(list2.size()+list1.size(),list4);
+//        System.out.println("***list"+list);
+    }
+
+
+    int[] fa = new int[10];
+
+    //初始化
+    private void init(int n) {
+        for (int i = 0; i < n; i++) {
+            fa[i] = i;
+        }
+    }
+
+    //找祖宗
+    private int find(int x) {
+        if (fa[x] == x) {
+            return x;
+        } else {
+            return find(fa[x]);
+        }
+    }
+
+    private void merge(int i, int j) {
+        fa[find(i)] = find(j);
+    }
+
+    //消除回溯
+    public void EliminateBack() {
+        char[] set = {'N', 'O', 'P', 'Q', 'R', 'S'};
+        //消除回溯
+        int k = 0;
+        for (Language language : list) {
+            List<Language> temp = new ArrayList<Language>();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getNTerminal() == language.getNTerminal()) {
+                    temp.add(list.get(i));
+                }
+            }
+            System.out.println("======" + temp.size());
+            if (temp.size() <= 1) {
+                continue;
+            }
+            init(temp.size());
+            for (int i = 0; i < temp.size(); i++) {
+                for (int j = i + 1; j < temp.size(); j++) {
+                    if (temp.get(i).getMatch1(0) == temp.get(j).getMatch1(0)) {
+                        System.out.println(i + "(((((((((((" + j);
+                        merge(i, j);
+                    }
+                }
+            }
+            for (int i : fa) {
+                System.out.println(fa[i]);
+            }
+            for (int i = 0; i < temp.size(); i++) {
+                if (fa[i] != i) {
+                    //A->aZ
+                    list.remove(temp.get(i));
+                    boolean remove = list.remove(temp.get(fa[i]));
+                    Language lan = new Language();
+                    lan.setNT(temp.get(fa[i]).getNTerminal());
+                    char[] t = new char[2];
+                    t[0] = temp.get(fa[i]).getMatch1(0);
+                    t[1] = set[k++];
+                    NotTerminal.add(set[k - 1]);  //新的非终结符
+                    lan.setMatch1(t);
+                    list.add(lan);
+                    //Z->剩下的
+                    Language lan2 = new Language();
+                    lan2.setNT(set[k - 1]);
+                    int le = 0;
+                    char[] now = new char[temp.get(i).getMatch().length - 1];
+                    for (int j = 1; j < temp.get(i).getMatch().length; j++) {
+                        now[le++] = temp.get(i).getMatch1(j);
+                    }
+                    lan2.setMatch1(now);
+                    list.add(lan2);
+                    if (remove == true) {
+                        Language lan3 = new Language();
+                        lan3.setNT(set[k - 1]);
+                        int la = 0;
+                        char[] s = new char[temp.get(fa[i]).getMatch().length - 1];
+                        for (int j = 1; j < temp.get(fa[i]).getMatch().length; j++) {
+                            s[la++] = temp.get(fa[i]).getMatch1(j);
+                        }
+                        lan3.setMatch1(s);
+                        list.add(lan3);
+                    }
+                }
+            }
+        }
     }
 
 
