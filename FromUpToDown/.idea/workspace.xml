@@ -3,23 +3,37 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="ALL" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="08131188-91ac-4451-921d-42d1a51525a9" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/FromUpToDown.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CompilersComponents" beforeDir="false" afterPath="$PROJECT_DIR$/../CompilersComponents" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/FAT/FAT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/First.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/First/GetFirst.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/Follow/GetFollow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/ALanguage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chen/production/Language.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/chen/FirstTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/FromUpToDown.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/FAT/FAT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/FAT/FAT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/First/GetFirst.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/First/GetFirst.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/Follow/GetFollow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/Follow/GetFollow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/production/ALanguage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/chen/production/Language.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/chen/production/Language.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/chen/FirstTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,11 +51,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
+  </component>
+  <component name="KotlinMultiplatform">
+    <allAvailableExecutables />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="v77utehf" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\Maven\MavenRepository" />
-        <option name="mavenHome" value="D:\Maven\apache-maven-3.6.3" />
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -54,11 +76,13 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/chen" />
-    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -68,9 +92,19 @@
       <recent name="C:\Users\香梨\OneDrive\桌面\编译原理\课程设计\FromUpToDown\src\main\java\com\chen\production" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.FirstTest.test">
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.chen.test" />
+  <component name="RunManager" selected="JUnit.FirstTest.testPredict1">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FirstTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="FromUpToDown" />
       <extension name="coverage">
         <pattern>
@@ -78,16 +112,8 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
+      <option name="PACKAGE_NAME" value="com.chen" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -125,11 +151,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FirstTest.testFirst1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FromUpToDown" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chen" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
+      <option name="METHOD_NAME" value="testFirst1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FirstTest.testPredict1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="FromUpToDown" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chen" />
+      <option name="MAIN_CLASS_NAME" value="com.chen.FirstTest" />
+      <option name="METHOD_NAME" value="testPredict1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.FirstTest.testPredict1" />
+        <item itemvalue="JUnit.FirstTest" />
         <item itemvalue="JUnit.FirstTest.test" />
+        <item itemvalue="JUnit.FirstTest.testFirst1" />
         <item itemvalue="JUnit.FirstTest.test2" />
-        <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
   </component>
@@ -152,17 +212,60 @@
       <workItem from="1606654980616" duration="26000" />
       <workItem from="1606655020392" duration="2399000" />
       <workItem from="1606742154215" duration="232000" />
+      <workItem from="1606746530931" duration="634000" />
+      <workItem from="1606747971809" duration="29000" />
+      <workItem from="1606784485317" duration="263000" />
+      <workItem from="1606784810742" duration="17845000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="532" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1605865472172">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state x="447" y="292" key="#Notifications" timestamp="1606798511863">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="447" y="292" key="#Notifications/0.25.1440.875@0.25.1440.875" timestamp="1606798511863" />
+    <state x="208" y="42" key="#Project_Structure" timestamp="1606746728059">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="208" y="42" key="#Project_Structure/0.25.1440.875@0.25.1440.875" timestamp="1606746728059" />
+    <state x="529" y="176" key="#com.intellij.ide.util.MemberChooser" timestamp="1606808391346">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="532" y="149" key="#com.intellij.ide.util.MemberChooser/0.0.1449.864@0.0.1449.864" timestamp="1605865472172" />
+    <state x="529" y="176" key="#com.intellij.ide.util.MemberChooser/0.25.1440.875@0.25.1440.875" timestamp="1606808391346" />
+    <state x="384" y="132" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog" timestamp="1606807682840">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="384" y="132" key="#com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog/0.25.1440.875@0.25.1440.875" timestamp="1606807682840" />
+    <state x="408" y="204" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1606784622361">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="408" y="204" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.25.1440.875@0.25.1440.875" timestamp="1606784622361" />
     <state x="155" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1605701484409">
       <screen x="0" y="0" width="1449" height="864" />
     </state>
@@ -171,29 +274,54 @@
       <screen x="0" y="0" width="1449" height="864" />
     </state>
     <state x="319" y="92" key="#项目结构/0.0.1449.864@0.0.1449.864" timestamp="1605701528207" />
-    <state width="1406" height="413" key="GridCell.Tab.0.bottom" timestamp="1606742361577">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state width="827" height="466" key="DebuggerActiveHint" timestamp="1606792199142">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state width="827" height="466" key="DebuggerActiveHint/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792199142" />
+    <state width="1398" height="315" key="GridCell.Tab.0.bottom" timestamp="1606812623542">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.bottom/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
-    <state width="1406" height="413" key="GridCell.Tab.0.center" timestamp="1606742361577">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state width="1398" height="300" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
+    <state width="1398" height="315" key="GridCell.Tab.0.bottom/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+    <state width="1398" height="315" key="GridCell.Tab.0.center" timestamp="1606812623542">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.center/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
-    <state width="1406" height="413" key="GridCell.Tab.0.left" timestamp="1606742361577">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state width="1398" height="300" key="GridCell.Tab.0.center/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914420" />
+    <state width="1398" height="315" key="GridCell.Tab.0.center/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+    <state width="1398" height="315" key="GridCell.Tab.0.left" timestamp="1606812623541">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.left/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
-    <state width="1406" height="413" key="GridCell.Tab.0.right" timestamp="1606742361577">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state width="1398" height="300" key="GridCell.Tab.0.left/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914419" />
+    <state width="1398" height="315" key="GridCell.Tab.0.left/0.25.1440.875@0.25.1440.875" timestamp="1606812623541" />
+    <state width="1398" height="315" key="GridCell.Tab.0.right" timestamp="1606812623542">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state width="1406" height="413" key="GridCell.Tab.0.right/0.0.1449.864@0.0.1449.864" timestamp="1606742361577" />
-    <state x="228" y="15" key="SettingsEditor" timestamp="1605700695791">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state width="1398" height="300" key="GridCell.Tab.0.right/0.25.1440.875/1440.-99.1366.999@0.25.1440.875" timestamp="1606792914421" />
+    <state width="1398" height="315" key="GridCell.Tab.0.right/0.25.1440.875@0.25.1440.875" timestamp="1606812623542" />
+    <state x="227" y="40" key="SettingsEditor" timestamp="1606807876164">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="228" y="15" key="SettingsEditor/0.0.1449.864@0.0.1449.864" timestamp="1605700695791" />
-    <state x="388" y="182" width="672" height="678" key="search.everywhere.popup" timestamp="1605871895165">
-      <screen x="0" y="0" width="1449" height="864" />
+    <state x="227" y="40" key="SettingsEditor/0.25.1440.875@0.25.1440.875" timestamp="1606807876164" />
+    <state x="422" y="225" width="595" height="474" key="find.popup" timestamp="1606808223102">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="422" y="225" width="595" height="474" key="find.popup/0.25.1440.875@0.25.1440.875" timestamp="1606808223102" />
+    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup" timestamp="1606808208967">
+      <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="388" y="182" width="672" height="678" key="search.everywhere.popup/0.0.1449.864@0.0.1449.864" timestamp="1605871895165" />
+    <state x="386" y="209" width="670" height="687" key="search.everywhere.popup/0.25.1440.875@0.25.1440.875" timestamp="1606808208967" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="list.get(1).NTerminal" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

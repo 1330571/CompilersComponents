@@ -62,7 +62,7 @@ public class GetFirst {
      */
     private boolean InsertFirst(Character NT, Character T) {
         First first = findFirstByNTerminal(NT);
-        if (first!=null&&first.IsOfFirst(T) == false) {
+        if (first != null && !first.IsOfFirst(T)) {
             first.add(T);
             return true;
         }
@@ -97,7 +97,7 @@ public class GetFirst {
         //2.扫描一遍所有的产生式 如果其左边的第一个字符是终结符 直接添加到箭头左边非终结符的first集中
         for (Language language : aLanguage.getList()) {
             Character a = language.getMatch()[0];
-            if (IsNTerminal(a) == false) {  //是一个终结符
+            if (!IsNTerminal(a)) {  //是一个终结符
                 InsertFirst(language.getNTerminal(), a);
             }
         }
@@ -106,7 +106,7 @@ public class GetFirst {
         //每次扫描判断将右边第一个（非终结符）的first集添加到箭头左边的非终结符的first集里面
         //如果左边第一个（非终结符）的first集存在空集 将下一个紧挨着的非终结符的first集加到 箭头左边的非终结符的first里面
         boolean flag = true;  //作为结束的判断
-        while (flag == true) {
+        while (flag) {
             flag = false;
 
             for (Language language : aLanguage.getList()) {
@@ -124,7 +124,7 @@ public class GetFirst {
                         }
 
                         //B可以推导出'$' 紧跟在B后面的非终结符C的first集也应该加入到first(A)中
-                        if (first.IsOfFirst('$') == true) {
+                        if (first.IsOfFirst('$')) {
                             continue;
                         }
                     }
@@ -142,9 +142,10 @@ public class GetFirst {
     }
 
     /**
-     *  找出该文法的First集，前提条件是所有文法的First集都求完
-     *  @param language 给定文法
-     * */
+     * 找出该文法的First集，前提条件是所有文法的First集都求完
+     *
+     * @param language 给定文法
+     */
     public List<Character> getOneLanguageFirst(Language language) {
         List<Character> languageFirst = new ArrayList<>();
         for (int i = 0; i < language.getMatch().length; i++) {
@@ -159,7 +160,7 @@ public class GetFirst {
                     }
                 }
                 //B可以推导出'$' 紧跟在B后面的非终结符C的first集也应该加入到first(A)中
-                if (first.IsOfFirst('$') == true) {
+                if (first.IsOfFirst('$')) {
                     continue;
                 }
             } else {

@@ -54,7 +54,7 @@ public class GetFollow {
      */
     private boolean InsertFollow(Character NT,Character a){
         Follow follow = findFollowByNTerminal(NT);
-        if(follow.IsOfFollow(a)==false){  //非终结符NT的follow集中不包含a 就将a加入到NT的follow集中
+        if(!follow.IsOfFollow(a)){  //非终结符NT的follow集中不包含a 就将a加入到NT的follow集中
             follow.add(a);
             return true;
         }
@@ -107,7 +107,7 @@ public class GetFollow {
 
         //2.循环遍历下面的操作直到没有任何新的follow集元素被加到follows集合中
         boolean flag = true;
-        while(flag==true){
+        while(flag){
             flag = false;
 
             //遍历每一个文法的产生式
@@ -115,7 +115,7 @@ public class GetFollow {
 
                 for(int i = 0; i<language.getMatch().length - 1; i++){
                     Character a = language.getMatch()[i];
-                    if(IsNTerminal(a)==true){
+                    if(IsNTerminal(a)){
                         First firstNext = findFirstBySymbol(language.getMatch()[i + 1]);
                         //是非终结符 将下一个符号的first集元素-'$' 都加到当前非终结符的follow集合中
                         for (Character character : firstNext.getArrayList()) {
@@ -130,7 +130,7 @@ public class GetFollow {
                 //对每一个产生式从后往前遍历
                 for(j = language.getMatch().length - 1 ; j>=0;j--){
                     Character a = language.getMatch()[j];
-                    if(IsNTerminal(a)==true){
+                    if(IsNTerminal(a)){
                         Follow followNT = findFollowByNTerminal(language.getNTerminal());
                         //如果产生式最右边的符号是非终结符，就把产生式箭头左边的非终结符的follow集合加到其follow集合中
                         //A->..B  follow(B)=follow(B）+follow(A)

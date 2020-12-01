@@ -11,7 +11,7 @@ import java.util.*;
 
 /*预测分析表*/
 public class FAT {
-    private ALanguage aLanguage;//文法
+    private final ALanguage aLanguage;//文法
     private GetFirst getFirst = new GetFirst();//First集
     private GetFollow getFollow = new GetFollow();//Follow集
     private Map<Character, First> firsts = new HashMap<>();
@@ -36,10 +36,11 @@ public class FAT {
     }
 
     /**
-     *  在给定文法中，找出First集中存在终结符t的文法。该函数用于建表时，找出table[A][*]对应的文法
-     *  @param ntLanguage 给定文法
-     *  @param t 待寻找的终结符
-     * */
+     * 在给定文法中，找出First集中存在终结符t的文法。该函数用于建表时，找出table[A][*]对应的文法
+     *
+     * @param ntLanguage 给定文法
+     * @param t          待寻找的终结符
+     */
     private Language getLanguageByTerminal(List<Language> ntLanguage, Character t) {
         //遍历所有文法，若该文法的First中含有t，则返回该文法
         for (Language La : ntLanguage) {
@@ -51,35 +52,35 @@ public class FAT {
     }
 
     /**
-    *  创建预测分析表
-    * */
+     * 创建预测分析表
+     */
     private void createTable() {
         List<Character> terminals = aLanguage.getTerminal();
         terminals.add('#');
-        for (Character nt : aLanguage.getNotTerminal()) {
-            Boolean flag = false;
+        for (Character nt : aLanguage.getNotTerminal()) { //获取文法的所有非终结符
+            boolean flag = false;
             Map<Character, Language> row = new HashMap<>();
             First first = firsts.get(nt);
             Follow follow = null;
-            if (first.IsOfFirst('$')) {
+            if (first.IsOfFirst('$')) { //标记是否有空符号
                 flag = true;
                 follow = follows.get(nt);
             }
-            for (Character t : terminals) {
+            for (Character t : terminals) {  //遍历所有终结符号
                 if (!first.IsOfFirst(t)) {
-                    if (flag && follow.IsOfFollow(t)) {
+                    if (flag && follow.IsOfFollow(t)) {  //(3)能推出空，这看FOLLOW集合 for each a属于FOLLOW(Alpha) 加入预测表
                         char[] cc = {'$'};
                         Language emptyLanguage = new Language(nt, cc);
-                        row.put(t, emptyLanguage);
-                    } else {
-                        row.put(t, null);
+                        row.put(t, emptyLanguage); //他是可以被推出来的
+                    } else { //(4) Error transition
+                        row.put(t, null); //Error
                     }
-                } else {
+                } else { //(3) for each a属于FIRST(alpha) A->alpha to M[A,a]
                     List<Language> ntLanguage = aLanguage.getLanguage(nt);
                     row.put(t, getLanguageByTerminal(ntLanguage, t));
                 }
             }
-            table.put(nt, row);
+            table.put(nt, row); //预测表添加一条转移函数
         }
         isCreateTable = true;
     }
@@ -136,23 +137,104 @@ public class FAT {
         return true;
     }
 
+    private String fixLength(String a, int length) {
+        StringBuilder aBuilder = new StringBuilder(a);
+        while (aBuilder.length() <= length)
+            aBuilder.append(' ');
+        a = aBuilder.toString();
+        return a;
+    }
+
+    private String fixLength(String a) {
+        return fixLength(a, 5);
+    }
+
+    public String rebuildExpr(Language language) {
+        char[] list = language.getMatch();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(language.getNTerminal());
+        stringBuilder.append("->");
+        for (char ch : list)
+            stringBuilder.append(ch);
+        return stringBuilder.toString();
+    }
+
+    private int max(int a, int b) {
+        return Math.max(a, b);
+    }
+
+    //输出更好看一些的预测表
+    public String printPredict() {
+        ArrayList<Integer> bestSz = new ArrayList<>();
+        List<Character> terminals = aLanguage.getTerminal();
+        List<Character> nTerminals = aLanguage.getNotTerminal();
+        Collections.sort(nTerminals);
+
+        while (bestSz.size() < terminals.size())
+            bestSz.add(0);
+
+        //构建每一列的长度信息
+        for (char nt : nTerminals) {
+            int idx = 0;
+            for (char t : terminals) {
+                Language language = table.get(nt).get(t);
+                if (language == null)
+                    bestSz.set(idx, max(3, bestSz.get(idx)));
+                else {
+                    String expr = rebuildExpr(language);
+                    bestSz.set(idx, max(expr.length(), bestSz.get(idx)));
+                }
+                ++idx;
+            }
+        }
+
+        StringBuilder tableInfo = new StringBuilder();
+        StringBuilder rowBuilder = new StringBuilder();
+        rowBuilder.append("   ");
+        int idx = 0;
+        for (char t : terminals) {
+            rowBuilder.append(fixLength(String.valueOf(t), bestSz.get(idx)));
+            idx++;
+        }
+        tableInfo.append(rowBuilder);
+        for (char nt : nTerminals) {
+            tableInfo.append('\n');
+            idx = 0;
+            rowBuilder = new StringBuilder();
+            rowBuilder.append(nt);
+            rowBuilder.append("  ");
+            for (char t : terminals) {
+                Language language = table.get(nt).get(t);
+                if (language == null)
+                    rowBuilder.append(fixLength("Err", bestSz.get(idx)));
+                else
+                    rowBuilder.append(fixLength(rebuildExpr(language), bestSz.get(idx)));
+                idx++;
+            }
+            rowBuilder.append("  ");
+            tableInfo.append(rowBuilder);
+        }
+        return tableInfo.toString();
+    }
+
+    @Deprecated
     public String tableToString() {
         List<Character> terminals = aLanguage.getTerminal();
         List<Character> nTerminals = aLanguage.getNotTerminal();
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Character nt : nTerminals) {
-            s += (nt + ": ");
+            s.append(nt).append(": ");
             for (Character t : terminals) {
-                s += "{" + t + ",";
+                s.append("{").append(t).append(",");
                 Language language = table.get(nt).get(t);
                 if (language == null) {
-                    s += "err},";
+                    s.append("err},");
                 } else {
-                    s += (nt + "->" + Arrays.toString(language.getMatch()) + "},");
+                    s.append(nt).append("->").append(Arrays.toString(language.getMatch())).append("},");
                 }
             }
-            s += "\n";
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Language {
     private char NTerminal; //非终结符 （只能为大写字母）
-    private char match[]; //非终结符的文法推导
+    private char[] match; //非终结符的文法推导
 
     /**
      *

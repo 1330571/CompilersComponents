@@ -3,8 +3,9 @@ package com.chen.First;
 import java.util.ArrayList;
 
 public class First {
+
     private char Symbol;  //文法符号
-    private ArrayList<Character> arrayList; //文法符号的first集
+    private final ArrayList<Character> arrayList; //文法符号的first集
 
     public First() {
         arrayList = new ArrayList<Character>();
