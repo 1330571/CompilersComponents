@@ -85,10 +85,25 @@ public class FAT {
         isCreateTable = true;
     }
 
+    private String generateStringFromStack(Stack<Character> stack, boolean rev) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char ch : stack)
+            stringBuilder.append(ch);
+        if (rev)
+            return stringBuilder.reverse().toString();
+        return stringBuilder.toString();
+    }
+
+    private String generateStringFromStack(Stack<Character> stack) {
+        return generateStringFromStack(stack, false);
+    }
+
     /**
      * @param s 待预测的字符串
      */
     public boolean predict(String s) {
+        final int LENGTH = 20; //设置固定长度简化程序
+        int procedureStep = 0;
         if (!isCreateTable) {
             System.out.println("预测分析表还未构建");
             return false;
@@ -105,12 +120,23 @@ public class FAT {
         // 2.符号栈压入#和开始符号
         symbolStack.push('#');
         symbolStack.push(aLanguage.getNotTerminal().get(0));
-
+        System.out.println("Step " +
+                "" +
+                " " + fixLength("Symbol Stack", 20) + fixLength("Input String", 20) + "Applied Production");
         // 3.开始预测分析
+        String stepString = fixLength(String.valueOf(procedureStep++));
+        String symbolString = fixLength(generateStringFromStack(symbolStack), LENGTH);
+        String inputString = fixLength(generateStringFromStack(inputStack, true), LENGTH);
+        //3.6 输出当前的格局
+        System.out.println(stepString + symbolString + inputString);
         while (!symbolStack.empty()) {
+            // 3.0 生成所有信息
+
+            String transitionFunc = null;
             // 3.1 取符号栈，输入串首字符
             Character symbol = symbolStack.peek();
             Character input = inputStack.peek();
+
             // 3.2 若两个首字符相同，则表明都为终结符，出栈
             if (symbol == input) {
                 symbolStack.pop();
@@ -121,6 +147,7 @@ public class FAT {
             Language language = table.get(symbol).get(input);
             // 3.4 若文法为null,表示预测失败
             if (language != null) {
+                transitionFunc = fixLength(rebuildExpr(language), LENGTH);
                 // 3.5 符号栈顶出栈，把文法倒序入栈，空字符不入栈
                 char[] match = language.getMatch();
                 symbolStack.pop();
@@ -130,10 +157,17 @@ public class FAT {
                         symbolStack.push(c);
                     }
                 }
+                String _stepString = fixLength(String.valueOf(procedureStep++));
+                String _symbolString = fixLength(generateStringFromStack(symbolStack), LENGTH);
+                String _inputString = fixLength(generateStringFromStack(inputStack, true), LENGTH);
+                //3.6 输出当前的格局
+                System.out.println(_stepString + _symbolString + _inputString + transitionFunc);
             } else {
+                System.out.println("匹配失败");
                 return false;
             }
         }
+        System.out.println("匹配成功");
         return true;
     }
 

@@ -51,9 +51,9 @@ public class GeneralTest {
         }
 
         FAT fat = new FAT(aLanguage);
-//        System.out.println(fat.predict("i*i+i"));
+        System.out.println(fat.predict("i*i+i"));
         fat.printPredict();
-        System.out.println(fat.tableToString());
+//        System.out.println(fat.tableToString());
         System.out.println(fat.printPredict());
     }
 
@@ -96,7 +96,7 @@ public class GeneralTest {
         }
 
         FAT fat = new FAT(aLanguage);
-        System.out.println(fat.predict("i*i+i"));
+        fat.predict("i+i*i++i");
 //        fat.printPredict();
 //        System.out.println(fat.tableToString());
         System.out.println(fat.printPredict());
